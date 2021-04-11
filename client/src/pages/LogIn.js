@@ -11,11 +11,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link } from "react-router-dom";
 import ExternalLink from "@material-ui/core/Link";
-import {
-  authenticateWithGoogle,
-  authenticateWithGitHub,
-} from "../helpers/auth";
-import { createErrorMessage } from "../helpers/error-handlers";
 import PopUpMessage from "../components/common/PopUpMessage";
 import ResetPassword from "../components/common/ResetPassword";
 import Header from "../components/common/Header";

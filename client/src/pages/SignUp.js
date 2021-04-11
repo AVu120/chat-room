@@ -12,10 +12,6 @@ import {
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  authenticateWithGoogle,
-  authenticateWithGitHub,
-} from "../helpers/auth";
 import PopUpMessage from "../components/common/PopUpMessage";
 import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
