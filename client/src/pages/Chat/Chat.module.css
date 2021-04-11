@@ -1,0 +1,72 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+}
+
+.midSection {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: flex-end;
+}
+
+.midSection__unverifiedAccess {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verifyEmailMessage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.verifyEmailMessage_sentence {
+  margin: 5px;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+}
+
+.messages {
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: auto;
+}
+
+.messageContainer {
+  display: flex;
+  flex-direction: column;
+}
+.message {
+  width: fit-content;
+  background-color: #e4e6eb;
+  border-radius: 20px;
+  margin-top: -10px;
+  font-size: large;
+  margin-top: 2px;
+}
+
+.message_content {
+  margin: 4px;
+}
+
+.message_senderId {
+  font-size: x-small;
+  margin-bottom: 0px;
+}
+
+.message__yours {
+  align-self: flex-end;
+  margin-right: 5px;
+  background-color: #d696bb;
+  color: white;
+  /* margin-top: 2px; */
+}

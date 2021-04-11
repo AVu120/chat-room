@@ -1,0 +1,14 @@
+/* Global css declared here. */
+:global .page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+:global .midSection {
+  height: 100%;
+  /* margin-top: 150px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
