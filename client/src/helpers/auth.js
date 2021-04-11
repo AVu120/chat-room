@@ -1,6 +1,76 @@
 // All functions related to firebase sdk authentication here.
 import { auth } from "../services/firebase";
 
+export const logInWithEmailAndPassword = async ({
+  event,
+  email,
+  password,
+  setIsLoading,
+  setUserStatus,
+  setError,
+}) => {
+  event.preventDefault();
+  if (email && password) {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/user/loginWithEmailAndPassword`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
+    setIsLoading(false);
+    if (response.ok) {
+      const responseJson = await response.json();
+      setUserStatus((state) => ({
+        ...state,
+        isAuthenticated: true,
+        userId: responseJson.userId,
+        email: responseJson.email,
+        isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
+        isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+        displayName: responseJson.displayName,
+      }));
+    } else {
+      const responseText = await response.text();
+      setError(responseText.replace(/"/g, ""));
+    }
+  } else {
+    setError("Please fill in email and password fields.");
+  }
+};
+
+export const logInWith3rdParty = async ({
+  provider,
+  setIsLoading,
+  setUserStatus,
+  setError,
+}) => {
+  setIsLoading(true);
+  const response = await fetch(
+    `${process.env.REACT_APP_BASE_API_URL}/user/logInWith3rdParty?provider=${provider}`
+  );
+  setIsLoading(false);
+  if (response.ok) {
+    const responseJson = await response.json();
+    setUserStatus((state) => ({
+      ...state,
+      isAuthenticated: true,
+      userId: responseJson.userId,
+      email: responseJson.email,
+      isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
+      isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+      displayName: responseJson.displayName,
+    }));
+  } else {
+    const responseText = await response.text();
+    setError(responseText.replace(/"/g, ""));
+  }
+};
+
 // Exit application.
 export const logOut = async (setUserStatus, setError) => {
   const response = await fetch(

@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Chat from "./pages/Chat/Chat";
 import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
+import LogIn from "./pages/LogIn/LogIn";
 import { checkAuthStatus } from "./helpers/auth";
 import PrivateRoute from "./components/common/routing/PrivateRoute";
 import PublicRoute from "./components/common/routing/PublicRoute";
