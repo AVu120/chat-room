@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { TextField, Button, makeStyles } from "@material-ui/core";
 import Header from "../../components/common/Header";
 import Footer from "../../components/common/Footer";
@@ -38,6 +38,7 @@ const Chat = ({ authenticated }) => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  const messagesEndRef = useRef(null);
 
   const resizeScreen = () => {
     setScreenDimensions({
@@ -96,6 +97,11 @@ const Chat = ({ authenticated }) => {
     };
     readMessages();
   }, []);
+
+  useEffect(() => {
+    if (!messages.length) return;
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     window.addEventListener("resize", resizeScreen);
@@ -178,6 +184,7 @@ const Chat = ({ authenticated }) => {
                   </div>
                 );
               })}
+              <div ref={messagesEndRef} />
             </div>
             {readError && !messages.length && <div>{readError}</div>}
 
