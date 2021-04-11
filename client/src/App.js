@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Chat from "./pages/Chat/Chat";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/SignUp/SignUp";
 import LogIn from "./pages/LogIn/LogIn";
 import { checkAuthStatus } from "./helpers/auth";
 import PrivateRoute from "./components/common/routing/PrivateRoute";
@@ -21,7 +21,7 @@ const App = () => {
     userId: null,
     email: null,
     isLoggedInWithEmailAndPw: null,
-    isVerifiedToUseChatroom: null,
+    isAllowedToUseChatroom: null,
     displayName: null,
     showNotification: false,
     notificationText: "",
@@ -34,7 +34,7 @@ const App = () => {
       userId: null,
       email: null,
       isLoggedInWithEmailAndPw: null,
-      isVerifiedToUseChatroom: null,
+      isAllowedToUseChatroom: null,
       displayName: null,
       showNotification: false,
       notificationText: "",

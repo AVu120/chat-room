@@ -7,10 +7,11 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { resetPassword } from "../../helpers/auth";
+import { sendResetPasswordEmail } from "../../helpers/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { UserStatusContext } from "../../App";
+import { isValidEmail } from "../../helpers/validation";
 
 const useStyles = makeStyles((theme) => ({
   cancelButton: {},
@@ -33,24 +34,6 @@ export default function ResetPassword({
   ] = useState(false);
   const { setUserStatus } = useContext(UserStatusContext);
 
-  const sendResetPasswordEmail = async (event) => {
-    event.preventDefault();
-    setIsSendingResetPasswordEmail(true);
-    const response = await resetPassword(emailValue);
-    setIsSendingResetPasswordEmail(false);
-    if (response.ok)
-      setUserStatus((userStatus) => ({
-        ...userStatus,
-        showNotification: true,
-        notificationText: "Successfully sent reset password email.",
-      }));
-    else {
-      const errorText = await response.text();
-      setError(errorText.replace(/"/g, ""));
-    }
-    onClose();
-  };
-
   const onAcknowledgeResetEmailSent = async (event) => {
     event.preventDefault();
     onClose();
@@ -58,7 +41,16 @@ export default function ResetPassword({
 
   useEffect(() => {
     if (!open || forgot) return;
-    sendResetPasswordEmail();
+    sendResetPasswordEmail({
+      emailValue,
+      isValidEmail,
+      setIsSendingResetPasswordEmail,
+      setUserStatus,
+      setError,
+      onClose,
+      showNotification: false,
+      showSendingProgress: false,
+    });
     // eslint-disable-next-line
   }, [open]);
 
@@ -80,7 +72,19 @@ export default function ResetPassword({
       <Dialog open={open} keepMounted>
         <DialogTitle id="alert-dialog-slide-title">Reset Password</DialogTitle>
         {forgot ? (
-          <form onSubmit={sendResetPasswordEmail}>
+          <form
+            onSubmit={(event) =>
+              sendResetPasswordEmail({
+                event,
+                emailValue,
+                isValidEmail,
+                setIsSendingResetPasswordEmail,
+                setUserStatus,
+                setError,
+                onClose,
+              })
+            }
+          >
             <DialogContent>
               <p>Enter your email address:</p>
               <TextField
@@ -116,7 +120,17 @@ export default function ResetPassword({
                     color="secondary"
                     variant="contained"
                     className={classes.saveButton}
-                    onClick={sendResetPasswordEmail}
+                    onClick={(event) =>
+                      sendResetPasswordEmail({
+                        event,
+                        emailValue,
+                        isValidEmail,
+                        setIsSendingResetPasswordEmail,
+                        setUserStatus,
+                        setError,
+                        onClose,
+                      })
+                    }
                   >
                     Save
                   </Button>

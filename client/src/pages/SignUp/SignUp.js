@@ -5,42 +5,23 @@ import {
   Container,
   CssBaseline,
   Grid,
-  makeStyles,
   TextField,
   Typography,
 } from "@material-ui/core";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import PopUpMessage from "../components/common/PopUpMessage";
-import Header from "../components/common/Header";
-import Footer from "../components/common/Footer";
+import PopUpMessage from "../../components/common/PopUpMessage";
+import Header from "../../components/common/Header";
+import Footer from "../../components/common/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { UserStatusContext } from "../App";
-import Copyright from "../components/common/CopyrightMessage";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    // marginTop: theme.spacing(8),
-    // height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  loadingIcon: {
-    display: "flex",
-    justifyContent: "center",
-  },
-}));
+import { UserStatusContext } from "../../App";
+import Copyright from "../../components/common/CopyrightMessage";
+import { useStyles } from "./SignUp.style";
+import {
+  SignUpWithEmailAndPassword,
+  logInWith3rdParty,
+} from "../../helpers/auth";
 
 export default function SignUp() {
   const { setUserStatus } = useContext(UserStatusContext);
@@ -49,67 +30,6 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  async function onSignUp(event) {
-    event.preventDefault();
-    if (email && password) {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/signup`,
-        {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          mode: "cors", // no-cors, *cors, same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, *same-origin, omit
-          headers: {
-            "Content-Type": "application/json",
-          },
-          redirect: "follow", // manual, *follow, error
-          referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
-        }
-      );
-      setIsLoading(false);
-      if (response.ok) {
-        const responseJson = await response.json();
-        setUserStatus((state) => ({
-          ...state,
-          isAuthenticated: true,
-          userId: responseJson.userId,
-          email: responseJson.email,
-          isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
-          isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
-          displayName: responseJson.displayName,
-        }));
-      } else {
-        const responseText = await response.text();
-        setError(responseText.replace(/"/g, ""));
-      }
-    } else setError("Please fill in email and password fields.");
-  }
-
-  const logInWith3rdParty = async (provider) => {
-    setIsLoading(true);
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/logInWith3rdParty?provider=${provider}`
-    );
-    setIsLoading(false);
-    if (response.ok) {
-      const responseJson = await response.json();
-      setUserStatus((state) => ({
-        ...state,
-        isAuthenticated: true,
-        userId: responseJson.userId,
-        email: responseJson.email,
-        isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
-        isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
-        displayName: responseJson.displayName,
-      }));
-    } else {
-      const responseText = await response.text();
-      setError(responseText.replace(/"/g, ""));
-    }
-  };
 
   return (
     <div className="page">
@@ -124,12 +44,26 @@ export default function SignUp() {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <form className={classes.form} noValidate onSubmit={onSignUp}>
+            <form
+              className={classes.form}
+              noValidate
+              onSubmit={(event) =>
+                SignUpWithEmailAndPassword({
+                  event,
+                  email,
+                  password,
+                  setIsLoading,
+                  setUserStatus,
+                  setError,
+                })
+              }
+            >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
                     required
+                    type="email"
                     fullWidth
                     id="email-input-for-signup"
                     label="Email Address"
@@ -173,7 +107,14 @@ export default function SignUp() {
                     fullWidth
                     variant="contained"
                     color="secondary"
-                    onClick={() => logInWith3rdParty("google")}
+                    onClick={() =>
+                      logInWith3rdParty({
+                        provider: "google",
+                        setIsLoading,
+                        setUserStatus,
+                        setError,
+                      })
+                    }
                   >
                     Sign up with Google
                   </Button>
@@ -183,7 +124,14 @@ export default function SignUp() {
                     fullWidth
                     variant="contained"
                     color="secondary"
-                    onClick={() => logInWith3rdParty("github")}
+                    onClick={() =>
+                      logInWith3rdParty({
+                        provider: "github",
+                        setIsLoading,
+                        setUserStatus,
+                        setError,
+                      })
+                    }
                   >
                     Sign up with GitHub
                   </Button>

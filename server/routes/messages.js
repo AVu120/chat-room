@@ -14,14 +14,11 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", async (req, res, next) => {
-  console.log("RUNS");
   await db.ref("messages").push(req.body, (writeError) => {
     if (writeError) {
-      console.error({ writeError });
       res.status(500).send(writeError);
     } else {
       res.send("Successfully sent message.");
-      console.log("SUCCESS");
     }
   });
 });

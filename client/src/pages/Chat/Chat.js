@@ -115,6 +115,10 @@ const Chat = ({ authenticated }) => {
       setMessages(updatedMessages)
     );
 
+    socket.on("updateUserStatus", (updatedUserStatus) =>
+      setUserStatus((userStatus) => ({ ...userStatus, updatedUserStatus }))
+    );
+
     return () => socket.disconnect();
   }, []);
 
@@ -130,12 +134,12 @@ const Chat = ({ authenticated }) => {
       />
       <section
         className={
-          userStatus.isVerifiedToUseChatroom
+          userStatus.isAllowedToUseChatroom
             ? styles.midSection
             : styles.midSection__unverifiedAccess
         }
       >
-        {userStatus.isVerifiedToUseChatroom ? (
+        {userStatus.isAllowedToUseChatroom ? (
           <>
             <div
               className={styles.messages}

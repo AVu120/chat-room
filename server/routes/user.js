@@ -2,14 +2,16 @@ var express = require("express");
 var router = express.Router();
 const { auth } = require("../services/firebase");
 
-router.post("/signup", (req, res, next) => {
+router.post("/signUp", (req, res, next) => {
   const { email, password } = req.body;
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then((user) => {
       if (user) {
         const isLoggedInWithEmailAndPw =
-          user.providerData[0]?.providerId === "password";
+          user.providerData &&
+          user.providerData[0] &&
+          user.providerData[0].providerId === "password";
         const isEmailVerified = user.emailVerified;
 
         !isEmailVerified && auth().currentUser.sendEmailVerification();
@@ -19,7 +21,7 @@ router.post("/signup", (req, res, next) => {
           displayName: user.displayName,
           email: user.email,
           isLoggedInWithEmailAndPw,
-          isVerifiedToUseChatroom:
+          isAllowedToUseChatroom:
             !isLoggedInWithEmailAndPw ||
             (isLoggedInWithEmailAndPw && isEmailVerified),
         });
@@ -30,7 +32,7 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-router.post("/loginWithEmailAndPassword", (req, res, next) => {
+router.post("/logInWithEmailAndPassword", (req, res, next) => {
   const { email, password } = req.body;
   auth()
     .signInWithEmailAndPassword(email, password)
@@ -47,7 +49,7 @@ router.post("/loginWithEmailAndPassword", (req, res, next) => {
           displayName: user.user.displayName,
           email: user.user.email,
           isLoggedInWithEmailAndPw,
-          isVerifiedToUseChatroom:
+          isAllowedToUseChatroom:
             !isLoggedInWithEmailAndPw ||
             (isLoggedInWithEmailAndPw && isEmailVerified),
         });
@@ -78,7 +80,7 @@ router.get("/logInWith3rdParty", (req, res, next) => {
           displayName: user.user.displayName,
           email: user.user.email,
           isLoggedInWithEmailAndPw,
-          isVerifiedToUseChatroom:
+          isAllowedToUseChatroom:
             !isLoggedInWithEmailAndPw ||
             (isLoggedInWithEmailAndPw && isEmailVerified),
         });
@@ -114,7 +116,7 @@ router.get("/status", (req, res, next) => {
         displayName: user.displayName,
         email: user.email,
         isLoggedInWithEmailAndPw,
-        isVerifiedToUseChatroom:
+        isAllowedToUseChatroom:
           !isLoggedInWithEmailAndPw ||
           (isLoggedInWithEmailAndPw && isEmailVerified),
       });

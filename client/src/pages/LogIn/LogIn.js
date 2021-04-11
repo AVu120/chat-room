@@ -64,6 +64,7 @@ export default function LogIn() {
                 fullWidth
                 id="email-input-for-login"
                 label="Email Address"
+                type="email"
                 name="email"
                 autoComplete="email"
                 onChange={(e) => setEmail(e.target.value)}

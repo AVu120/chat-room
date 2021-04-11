@@ -1,4 +1,4 @@
-export const logInWithEmailAndPassword = async ({
+export const SignUpWithEmailAndPassword = async ({
   event,
   email,
   password,
@@ -6,11 +6,11 @@ export const logInWithEmailAndPassword = async ({
   setUserStatus,
   setError,
 }) => {
-  event.preventDefault();
+  event?.preventDefault();
   if (email && password) {
     setIsLoading(true);
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/loginWithEmailAndPassword`,
+      `${process.env.REACT_APP_BASE_API_URL}/user/signUp`,
       {
         method: "POST",
         headers: {
@@ -28,7 +28,47 @@ export const logInWithEmailAndPassword = async ({
         userId: responseJson.userId,
         email: responseJson.email,
         isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
-        isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+        isAllowedToUseChatroom: responseJson.isAllowedToUseChatroom,
+        displayName: responseJson.displayName,
+      }));
+    } else {
+      const responseText = await response.text();
+      setError(responseText.replace(/"/g, ""));
+    }
+  } else setError("Please fill in email and password fields.");
+};
+
+export const logInWithEmailAndPassword = async ({
+  event,
+  email,
+  password,
+  setIsLoading,
+  setUserStatus,
+  setError,
+}) => {
+  event.preventDefault();
+  if (email && password) {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/user/logInWithEmailAndPassword`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      }
+    );
+    setIsLoading(false);
+    if (response.ok) {
+      const responseJson = await response.json();
+      setUserStatus((state) => ({
+        ...state,
+        isAuthenticated: true,
+        userId: responseJson.userId,
+        email: responseJson.email,
+        isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
+        isAllowedToUseChatroom: responseJson.isAllowedToUseChatroom,
         displayName: responseJson.displayName,
       }));
     } else {
@@ -59,7 +99,7 @@ export const logInWith3rdParty = async ({
       userId: responseJson.userId,
       email: responseJson.email,
       isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
-      isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+      isAllowedToUseChatroom: responseJson.isAllowedToUseChatroom,
       displayName: responseJson.displayName,
     }));
   } else {
@@ -82,18 +122,48 @@ export const logOut = async (setUserStatus, setError) => {
       userId: null,
       email: null,
       isLoggedInWithEmailAndPw: null,
-      isVerifiedToUseChatroom: null,
+      isAllowedToUseChatroom: null,
       displayName: null,
       notificationText: "",
     });
   else setError("Log Out failed.");
 };
 
-// Change account details.
-export const resetPassword = (email) =>
-  fetch(
-    `${process.env.REACT_APP_BASE_API_URL}/user/resetPassword?email=${email}`
-  );
+export const sendResetPasswordEmail = async ({
+  event,
+  emailValue,
+  isValidEmail,
+  setIsSendingResetPasswordEmail,
+  setUserStatus,
+  setError,
+  onClose,
+  showNotification = true,
+  showSendingProgress = true,
+}) => {
+  event?.preventDefault();
+  if (isValidEmail(emailValue.trim())) {
+    showSendingProgress && setIsSendingResetPasswordEmail(true);
+    const response = await fetch(
+      `${
+        process.env.REACT_APP_BASE_API_URL
+      }/user/resetPassword?email=${emailValue.trim()}`
+    );
+    showSendingProgress && setIsSendingResetPasswordEmail(false);
+    if (response.ok)
+      showNotification &&
+        setUserStatus((userStatus) => ({
+          ...userStatus,
+          showNotification: true,
+          notificationText: "Successfully sent reset password email.",
+        }));
+    else {
+      const errorText = await response.text();
+      setError(errorText.replace(/"/g, ""));
+    }
+    onClose();
+  } else
+    setError(emailValue.trim() ? "Invalid email format." : "Email required.");
+};
 
 export const changeLogInEmail = (newEmail) =>
   fetch(
