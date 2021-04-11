@@ -1,6 +1,3 @@
-// All functions related to firebase sdk authentication here.
-import { auth } from "../services/firebase";
-
 export const logInWithEmailAndPassword = async ({
   event,
   email,

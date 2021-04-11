@@ -1,23 +1,23 @@
-import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserStatusContext } from "../../App";
+import Footer from "../../components/common/Footer";
+import Header from "../../components/common/Header";
 import PopUpMessage from "../../components/common/PopUpMessage";
 import ResetPassword from "../../components/common/ResetPassword";
-import Header from "../../components/common/Header";
-import Footer from "../../components/common/Footer";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { UserStatusContext } from "../../App";
 import {
-  logInWithEmailAndPassword,
   logInWith3rdParty,
+  logInWithEmailAndPassword,
 } from "../../helpers/auth";
 import { Copyright, useStyles } from "./LogIn.style";
 
