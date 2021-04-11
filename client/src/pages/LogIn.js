@@ -69,8 +69,7 @@ export default function LogIn() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showResetPasswordWindow, setShowResetPasswordWindow] = useState(false);
-  // eslint-disable-next-line
-  const [userStatus, setUserStatus] = useContext(UserStatusContext);
+  const { setUserStatus } = useContext(UserStatusContext);
 
   const logInWithEmailAndPassword = async (event) => {
     event.preventDefault();

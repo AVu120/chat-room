@@ -45,7 +45,7 @@ const App = () => {
   }, []);
 
   return (
-    <UserStatusContext.Provider value={[userStatus, setUserStatus]}>
+    <UserStatusContext.Provider value={{ userStatus, setUserStatus }}>
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />

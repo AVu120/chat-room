@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Dialog,
@@ -10,6 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { changeEmailAddress } from "../../helpers/auth";
+import { UserStatusContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   cancelButton: {},
@@ -21,6 +22,7 @@ export default function ChangeEmailAddress({ open, onClose, email, setError }) {
   const classes = useStyles();
   const [isChangingEmailAddress, setIsChangingEmailAddress] = useState(false);
   const [draftEmailAddress, setDraftEmailAddress] = useState(email);
+  const { setUserStatus } = useContext(UserStatusContext);
 
   async function onSave(event) {
     event.preventDefault();

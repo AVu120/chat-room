@@ -32,7 +32,6 @@ router.post("/signup", (req, res, next) => {
 
 router.post("/loginWithEmailAndPassword", (req, res, next) => {
   const { email, password } = req.body;
-  console.log("LOG IN ATTEMPTED");
   auth()
     .signInWithEmailAndPassword(email, password)
     .then((user) => {
@@ -95,32 +94,45 @@ router.get("/logout", async (req, res, next) => {
     await auth().signOut();
     res.send("User has successfully logged out.");
   } catch (error) {
-    res.status(500).send("User logout failed.");
+    res.status(500).send(error.message);
   }
 });
 
 router.get("/status", (req, res, next) => {
-  const user = auth().currentUser;
+  try {
+    const user = auth().currentUser;
 
-  if (user) {
-    const isLoggedInWithEmailAndPw =
-      user.providerData[0].providerId === "password";
-    const isEmailVerified = user.emailVerified;
+    if (user) {
+      const isLoggedInWithEmailAndPw =
+        user.providerData[0].providerId === "password";
+      const isEmailVerified = user.emailVerified;
 
-    !isEmailVerified && auth().currentUser.sendEmailVerification();
+      !isEmailVerified && auth().currentUser.sendEmailVerification();
 
-    res.send({
-      userId: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      isLoggedInWithEmailAndPw,
-      isVerifiedToUseChatroom:
-        !isLoggedInWithEmailAndPw ||
-        (isLoggedInWithEmailAndPw && isEmailVerified),
-    });
-  } else {
-    res.status(404).send("No user is logged in.");
+      res.send({
+        userId: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        isLoggedInWithEmailAndPw,
+        isVerifiedToUseChatroom:
+          !isLoggedInWithEmailAndPw ||
+          (isLoggedInWithEmailAndPw && isEmailVerified),
+      });
+    } else {
+      res.status(404).send("No user is logged in.");
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
   }
 });
 
+router.get("/changeEmailAddress", async (req, res, next) => {
+  const { newEmail } = req.query;
+  try {
+    await auth().currentUser.updateEmail(newEmail);
+    res.status(200).send("Successfully reset password.");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 module.exports = router;

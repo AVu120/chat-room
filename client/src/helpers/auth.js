@@ -26,7 +26,9 @@ export const logOut = async (setUserStatus, setError) => {
 export const resetPassword = (email) => auth().sendPasswordResetEmail(email);
 
 export const changeEmailAddress = (newEmail) =>
-  auth().currentUser.updateEmail(newEmail);
+  fetch(
+    `${process.env.REACT_APP_BASE_API_URL}/user/changeEmailAddress?newEmail=${newEmail}`
+  );
 
 export const checkAuthStatus = async (setUserStatus) => {
   const response = await fetch(

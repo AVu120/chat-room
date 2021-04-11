@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Chat = ({ authenticated }) => {
   const classes = useStyles();
-  const [userStatus, setUserStatus] = useContext(UserStatusContext);
+  const { userStatus, setUserStatus } = useContext(UserStatusContext);
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
