@@ -19,15 +19,18 @@ export const logOut = async (setUserStatus, setError) => {
       displayName: null,
       notificationText: "",
     });
-  else setError("Log out failed.");
+  else setError("Log Out failed.");
 };
 
 // Change account details.
-export const resetPassword = (email) => auth().sendPasswordResetEmail(email);
-
-export const changeEmailAddress = (newEmail) =>
+export const resetPassword = (email) =>
   fetch(
-    `${process.env.REACT_APP_BASE_API_URL}/user/changeEmailAddress?newEmail=${newEmail}`
+    `${process.env.REACT_APP_BASE_API_URL}/user/resetPassword?email=${email}`
+  );
+
+export const changeLogInEmail = (newEmail) =>
+  fetch(
+    `${process.env.REACT_APP_BASE_API_URL}/user/changeLogInEmail?newEmail=${newEmail}`
   );
 
 export const checkAuthStatus = async (setUserStatus) => {

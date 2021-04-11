@@ -1,43 +1,128 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  TextField,
 } from "@material-ui/core";
 import { resetPassword } from "../../helpers/auth";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-export default function ResetPassword({ open, onClose, email, setError }) {
-  const onAcknowledgeResetEmailSent = (event) => {
+const useStyles = makeStyles((theme) => ({
+  cancelButton: {},
+  saveButton: {},
+  loadingIcon: { margin: "0 10px 10px 0" },
+}));
+
+export default function ResetPassword({
+  open,
+  onClose,
+  email,
+  setError,
+  forgot,
+}) {
+  const classes = useStyles();
+  const [emailValue, setEmailValue] = useState(!forgot ? email : "");
+  const [
+    isSendingResetPasswordEmail,
+    setIsSendingResetPasswordEmail,
+  ] = useState(false);
+  const [resetPasswordEmailSent, setResetPasswordEmailSent] = useState(false);
+
+  const sendResetPasswordEmail = async () => {
+    try {
+      setIsSendingResetPasswordEmail(true);
+      await resetPassword(emailValue);
+      setIsSendingResetPasswordEmail(false);
+      setResetPasswordEmailSent(true);
+    } catch (error) {
+      setError(error?.message);
+    }
+  };
+
+  const onAcknowledgeResetEmailSent = async (event) => {
     event.preventDefault();
-    onClose(false);
+    onClose();
   };
 
   useEffect(() => {
-    if (!open) return;
-    try {
-      resetPassword(email);
-    } catch (error) {
-      error && setError(error.message);
-    }
+    if (!open || forgot) return;
+    sendResetPasswordEmail();
     // eslint-disable-next-line
   }, [open]);
+
+  const ResetPasswordEmailSentMessage = () => (
+    <>
+      <DialogContent>
+        <p>A reset password email has been sent to your email inbox.</p>
+      </DialogContent>
+      <DialogActions>
+        <Button color="secondary" variant="contained" type="submit">
+          OK
+        </Button>
+      </DialogActions>
+    </>
+  );
 
   return (
     <div>
       <Dialog open={open} keepMounted>
         <DialogTitle id="alert-dialog-slide-title">Reset Password</DialogTitle>
-
         <form onSubmit={onAcknowledgeResetEmailSent}>
-          <DialogContent>
-            <p>A reset password email has been sent to your email inbox.</p>
-          </DialogContent>
-          <DialogActions>
-            <Button color="secondary" variant="contained" type="submit">
-              OK
-            </Button>
-          </DialogActions>
+          {forgot ? (
+            resetPasswordEmailSent ? (
+              ResetPasswordEmailSentMessage()
+            ) : (
+              <>
+                <DialogContent>
+                  <p>Enter your email address:</p>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    onChange={(e) => setEmailValue(e.target.value)}
+                    autoFocus
+                    value={emailValue}
+                    autoComplete="email"
+                    required
+                  />
+                </DialogContent>
+                <DialogActions
+                  className={`${
+                    isSendingResetPasswordEmail ? classes.loadingIcon : ""
+                  }`}
+                >
+                  {isSendingResetPasswordEmail ? (
+                    <CircularProgress color="secondary" />
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() => onClose()}
+                        color="primary"
+                        variant="contained"
+                        className={classes.cancelButton}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        className={classes.saveButton}
+                        onClick={sendResetPasswordEmail}
+                      >
+                        Save
+                      </Button>
+                    </>
+                  )}
+                </DialogActions>
+              </>
+            )
+          ) : (
+            ResetPasswordEmailSentMessage()
+          )}
         </form>
       </Dialog>
     </div>

@@ -126,11 +126,21 @@ router.get("/status", (req, res, next) => {
   }
 });
 
-router.get("/changeEmailAddress", async (req, res, next) => {
+router.get("/changeLogInEmail", async (req, res, next) => {
   const { newEmail } = req.query;
   try {
     await auth().currentUser.updateEmail(newEmail);
-    res.status(200).send("Successfully reset password.");
+    res.status(200).send("Successfully changed login email.");
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+router.get("/resetPassword", async (req, res, next) => {
+  const { email } = req.query;
+  try {
+    await auth().sendPasswordResetEmail(email);
+    res.status(200).send("Successfully send reset password email.");
   } catch (error) {
     res.status(500).send(error.message);
   }

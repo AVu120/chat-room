@@ -43,8 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  // eslint-disable-next-line
-  const [userStatus, setUserStatus] = useContext(UserStatusContext);
+  const { setUserStatus } = useContext(UserStatusContext);
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

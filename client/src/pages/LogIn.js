@@ -254,6 +254,7 @@ export default function LogIn() {
           open={showResetPasswordWindow}
           onClose={setShowResetPasswordWindow}
           setError={setError}
+          forgot
         />
       )}
     </div>

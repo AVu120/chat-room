@@ -121,10 +121,10 @@ export default function Header({
                 ]}
                 textOptions={[
                   "Change Display Name",
-                  "Change email address",
-                  "Change password",
-                  "Delete account",
-                  "Log out",
+                  "Change Login Email",
+                  "Reset Password",
+                  "Delete Account",
+                  "Log Out",
                 ]}
                 onClickOptions={[
                   toggleChangeDisplayNameWindow,

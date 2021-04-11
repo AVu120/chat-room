@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { changeEmailAddress } from "../../helpers/auth";
+import { changeLogInEmail } from "../../helpers/auth";
 import { UserStatusContext } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,12 +29,12 @@ export default function ChangeEmailAddress({ open, onClose, email, setError }) {
     if (draftEmailAddress && draftEmailAddress !== email)
       try {
         setIsChangingEmailAddress(true);
-        await changeEmailAddress(draftEmailAddress);
+        await changeLogInEmail(draftEmailAddress);
         setIsChangingEmailAddress(false);
         setUserStatus((userStatus) => ({
           ...userStatus,
           showNotification: true,
-          notificationText: "Your email address has been successfully changed.",
+          notificationText: "Successfully changed login email.",
         }));
         onClose();
       } catch (error) {
@@ -50,7 +50,7 @@ export default function ChangeEmailAddress({ open, onClose, email, setError }) {
       <Dialog open={open} keepMounted>
         <form onSubmit={onSave}>
           <DialogTitle id="alert-dialog-slide-title">
-            Change Email Address
+            Change Login Email
           </DialogTitle>
           <DialogContent>
             <p>Type your new login email address.</p>
