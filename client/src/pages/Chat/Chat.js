@@ -38,7 +38,6 @@ const Chat = ({ authenticated }) => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
-  let socket = socketIOClient(process.env.REACT_APP_BASE_API_URL);
 
   const resizeScreen = () => {
     setScreenDimensions({
@@ -105,6 +104,8 @@ const Chat = ({ authenticated }) => {
   });
 
   useEffect(() => {
+    const socket = socketIOClient(process.env.REACT_APP_BASE_API_URL);
+
     socket.on("updateMessages", (updatedMessages) =>
       setMessages(updatedMessages)
     );
