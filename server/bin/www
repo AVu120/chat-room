@@ -7,6 +7,8 @@
 var app = require("../app");
 var debug = require("debug")("server:server");
 var http = require("http");
+const socketIO = require("socket.io");
+const { db } = require("../services/firebase");
 
 /**
  * Get port from environment and store in Express.
@@ -20,6 +22,28 @@ app.set("port", port);
  */
 
 var server = http.createServer(app);
+const io = socketIO(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connect", (socket) => {
+  console.log("New client connected");
+  db.ref("messages").on("value", (snapshot) => {
+    try {
+      if (snapshot.val())
+        socket.emit("updateMessages", Object.values(snapshot.val()));
+    } catch (readError) {
+      setReadError(readError.message);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.

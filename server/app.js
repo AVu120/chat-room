@@ -1,7 +1,5 @@
-const http = require("http");
 var createError = require("http-errors");
 var express = require("express");
-const socketio = require("socket.io");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -13,8 +11,6 @@ var messagesRouter = require("./routes/messages");
 const cors = require("cors");
 
 var app = express();
-const server = http.createServer(app);
-const io = socketio(server);
 const { db } = require("./services/firebase");
 
 // view engine setup
@@ -32,21 +28,6 @@ app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/users", usersRouter);
 app.use("/messages", messagesRouter);
-
-io.on("connect", (socket) => {
-  db.ref("messages").on("value", (node) => {
-    try {
-      // If there are messages, save them into state as an array of objects.
-      if (node.val()) setMessages(Object.values(node.val()));
-      else {
-        setMessages([]);
-        throw new Error("There are no messages yet!");
-      }
-    } catch (readError) {
-      setReadError(readError.message);
-    }
-  });
-});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

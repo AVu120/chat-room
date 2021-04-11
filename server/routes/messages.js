@@ -2,17 +2,26 @@ const express = require("express");
 const router = express.Router();
 const { db } = require("../services/firebase");
 
-// Returns DB listener.
-router.get("/", function (req, res, next) {
-  // Add pub/sub via websocket here.
-  const dbRef = db.ref("messages");
-  dbRef.once("value", (node) => {
+router.get("/", (req, res, next) => {
+  db.ref("messages").once("value", (node) => {
     try {
-      // If there are messages, save them into state as an array of objects.
       if (node.val()) res.send(Object.values(node.val()));
       else res.send([]);
     } catch (readError) {
       res.status(500).send(readError);
+    }
+  });
+});
+
+router.post("/", async (req, res, next) => {
+  console.log("RUNS");
+  await db.ref("messages").push(req.body, (writeError) => {
+    if (writeError) {
+      console.error({ writeError });
+      res.status(500).send(writeError);
+    } else {
+      res.send("Successfully sent message.");
+      console.log("SUCCESS");
     }
   });
 });

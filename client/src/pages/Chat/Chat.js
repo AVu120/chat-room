@@ -4,10 +4,10 @@ import Header from "../../components/common/Header";
 import Footer from "../../components/common/Footer";
 import { db } from "../../services/firebase";
 import { logOut } from "../../helpers/auth";
-// import { readMessages } from "../../helpers/messages";
 import styles from "./Chat.module.css";
 import ErrorMessage from "../../components/common/PopUpMessage";
 import { UserStatusContext } from "../../App";
+import socketIOClient from "socket.io-client";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -38,6 +38,7 @@ const Chat = ({ authenticated }) => {
     height: window.innerHeight,
     width: window.innerWidth,
   });
+  let socket = socketIOClient(process.env.REACT_APP_BASE_API_URL);
 
   const resizeScreen = () => {
     setScreenDimensions({
@@ -46,18 +47,24 @@ const Chat = ({ authenticated }) => {
     });
   };
 
-  async function onSendMessage() {
+  const sendMessage = async () => {
     // Check if message has content and isn't just spaces & newline characters.
     if (draftMessage && draftMessage.trim().replace(/[\r\n]+/gm, "")) {
       readError && setReadError(null);
       writeError && setWriteError(null);
       setIsLoading(true);
       try {
-        await db.ref("messages").push({
-          content: draftMessage.trim(),
-          timestamp: Date.now(),
-          uid: userStatus.userId,
-          displayName,
+        await fetch(`${process.env.REACT_APP_BASE_API_URL}/messages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: draftMessage.trim(),
+            timestamp: Date.now(),
+            uid: userStatus.userId,
+            displayName,
+          }),
         });
         setIsLoading(false);
         setDraftMessage("");
@@ -66,18 +73,17 @@ const Chat = ({ authenticated }) => {
         setWriteError(error.message);
       }
     } else setDraftMessage("");
-  }
+  };
 
-  const onDraftMessageChange = (event) => {
+  const changeDraftMessage = (event) => {
     setWriteError(null);
     setDraftMessage(event.target.value);
   };
 
   const acknowledgeErrorMessage = () => setOtherError(null);
 
+  // Read messages from Google Firebase Realtime Database
   useEffect(() => {
-    // setReadError(null);
-    // // Read messages from Google Realtime Database
     const readMessages = async () => {
       const response = await fetch(
         `${process.env.REACT_APP_BASE_API_URL}/messages`
@@ -89,8 +95,6 @@ const Chat = ({ authenticated }) => {
         setReadError("There are no messages yet!");
       }
     };
-
-    // return () => db.ref("messages").off("value", listener);
     readMessages();
   }, []);
 
@@ -99,6 +103,14 @@ const Chat = ({ authenticated }) => {
 
     return () => window.removeEventListener("resize", resizeScreen);
   });
+
+  useEffect(() => {
+    socket.on("updateMessages", (updatedMessages) =>
+      setMessages(updatedMessages)
+    );
+
+    return () => socket.disconnect();
+  }, []);
 
   return (
     <div className={styles.chat}>
@@ -170,7 +182,7 @@ const Chat = ({ authenticated }) => {
 
             <div className={styles.form}>
               <TextField
-                onChange={onDraftMessageChange}
+                onChange={changeDraftMessage}
                 value={draftMessage}
                 className={classes.draftMessageInputField}
                 variant="outlined"
@@ -179,15 +191,14 @@ const Chat = ({ authenticated }) => {
                 error={Boolean(writeError)}
                 placeholder="Type your message here then click send."
                 onKeyPress={(e) => {
-                  if ((e.key === "Enter") & !e.shiftKey) onSendMessage();
+                  if ((e.key === "Enter") & !e.shiftKey) sendMessage();
                 }}
               />
               <Button
                 variant="contained"
                 color="secondary"
-                // endIcon={<SendIcon />}
                 className={classes.button}
-                onClick={() => onSendMessage()}
+                onClick={() => sendMessage()}
                 disabled={!draftMessage || isLoading}
               >
                 Send
