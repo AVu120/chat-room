@@ -77,30 +77,23 @@ export default function LogIn() {
   // eslint-disable-next-line
   const [userStatus, setUserStatus] = useContext(UserStatusContext);
 
-  async function emailLogIn(event) {
+  const logInWithEmailAndPassword = async (event) => {
     event.preventDefault();
     if (email && password) {
       setIsLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/login`,
+        `${process.env.REACT_APP_BASE_API_URL}/user/loginWithEmailAndPassword`,
         {
-          method: "POST", // *GET, POST, PUT, DELETE, etc.
-          // mode: "cors", // no-cors, *cors, same-origin
-          // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          // credentials: "same-origin", // include, *same-origin, omit
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          // redirect: "follow", // manual, *follow, error
-          // referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-          body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+          body: JSON.stringify({ email, password }),
         }
       );
       setIsLoading(false);
-      console.log({ response });
       if (response.ok) {
         const responseJson = await response.json();
-        console.log(responseJson);
         setUserStatus((state) => ({
           ...state,
           isAuthenticated: true,
@@ -112,29 +105,35 @@ export default function LogIn() {
         }));
       } else {
         const responseText = await response.text();
-        console.log(responseText);
         setError(responseText.replace(/"/g, ""));
       }
     } else {
       setError("Please fill in email and password fields.");
     }
-  }
+  };
 
-  async function googleLogIn() {
-    try {
-      await authenticateWithGoogle();
-    } catch (error) {
-      setError(createErrorMessage({ authService: "Google", error }));
+  const logInWith3rdParty = async (provider) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/user/logInWith3rdParty?provider=${provider}`
+    );
+    setIsLoading(false);
+    if (response.ok) {
+      const responseJson = await response.json();
+      setUserStatus((state) => ({
+        ...state,
+        isAuthenticated: true,
+        userId: responseJson.userId,
+        email: responseJson.email,
+        isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
+        isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+        displayName: responseJson.displayName,
+      }));
+    } else {
+      const responseText = await response.text();
+      setError(responseText.replace(/"/g, ""));
     }
-  }
-
-  async function gitHubLogIn() {
-    try {
-      await authenticateWithGitHub();
-    } catch (error) {
-      setError(createErrorMessage({ authService: "GitHub", error }));
-    }
-  }
+  };
 
   return (
     <div className="page">
@@ -149,7 +148,11 @@ export default function LogIn() {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <form className={classes.form} noValidate onSubmit={emailLogIn}>
+            <form
+              className={classes.form}
+              noValidate
+              onSubmit={logInWithEmailAndPassword}
+            >
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -219,7 +222,7 @@ export default function LogIn() {
                     variant="contained"
                     color="secondary"
                     className={classes.secondarySubmit}
-                    onClick={() => googleLogIn()}
+                    onClick={() => logInWith3rdParty("google")}
                   >
                     Login with Google
                   </Button>
@@ -230,7 +233,7 @@ export default function LogIn() {
                     variant="contained"
                     color="secondary"
                     className={classes.secondarySubmit}
-                    onClick={() => gitHubLogIn()}
+                    onClick={() => logInWith3rdParty("github")}
                   >
                     Login with GitHub
                   </Button>

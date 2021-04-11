@@ -1,23 +1,6 @@
 // All functions related to firebase sdk authentication here.
 import { auth } from "../services/firebase";
 
-// Create application account.
-export const signUp = (email, password) =>
-  auth().createUserWithEmailAndPassword(email, password);
-
-export const sendVerificationEmail = () =>
-  auth().currentUser.sendEmailVerification();
-
-export const authenticateWithGoogle = () => {
-  const provider = new auth.GoogleAuthProvider();
-  return auth().signInWithPopup(provider);
-};
-
-export const authenticateWithGitHub = () => {
-  const provider = new auth.GithubAuthProvider();
-  return auth().signInWithPopup(provider);
-};
-
 // Exit application.
 export const logOut = async (setUserStatus, setError) => {
   const response = await fetch(

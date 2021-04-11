@@ -40,42 +40,7 @@ const App = () => {
       displayName: null,
     }));
 
-  // useEffect(() => {
-  //   // auth().onAuthStateChanged() fires whenever firebase authentication state changes.
-  //   const subscribe = () =>
-  //     auth().onAuthStateChanged((user) => {
-  //       // console.log({ user });
-  //       // user is defined if the user is authenticated.
-  //       if (user) {
-  //         setUserStatus((state) => ({ ...state, isAuthenticated: true }));
-  //         // user is null if user is unauthenticated.
-  //       } else {
-  //         setUserStatus((state) => ({ ...state, isAuthenticated: false }));
-  //       }
-  //     });
-
-  //   // Clean up firebase authentication status listener on unmount.
-  //   return subscribe();
-  // }, []);
-
   useEffect(() => {
-    // const checkAuthStatus = async () => {
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_BASE_API_URL}/user/status`
-    //   );
-    //   if (response.ok) {
-    //     const responseJson = await response.json();
-    //     console.log({ responseJson });
-
-    //     setUserStatus((state) => ({
-    //       ...state,
-    //       isAuthenticated: true,
-    //       ...responseJson,
-    //     }));
-    //   } else {
-    //     setUserStatus((state) => ({ ...state, isAuthenticated: false }));
-    //   }
-    // };
     checkAuthStatus(setUserStatus);
   }, []);
 

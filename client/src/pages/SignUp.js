@@ -93,25 +93,28 @@ export default function SignUp() {
     } else setError("Please fill in email and password fields.");
   }
 
-  async function googleLogIn() {
-    try {
-      await authenticateWithGoogle();
-    } catch (error) {
-      setError(
-        error?.message || "Login with Google failed. Please try again later."
-      );
+  const logInWith3rdParty = async (provider) => {
+    setIsLoading(true);
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_API_URL}/user/logInWith3rdParty?provider=${provider}`
+    );
+    setIsLoading(false);
+    if (response.ok) {
+      const responseJson = await response.json();
+      setUserStatus((state) => ({
+        ...state,
+        isAuthenticated: true,
+        userId: responseJson.userId,
+        email: responseJson.email,
+        isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
+        isVerifiedToUseChatroom: responseJson.isVerifiedToUseChatroom,
+        displayName: responseJson.displayName,
+      }));
+    } else {
+      const responseText = await response.text();
+      setError(responseText.replace(/"/g, ""));
     }
-  }
-
-  async function gitHubLogIn() {
-    try {
-      await authenticateWithGitHub();
-    } catch (error) {
-      setError(
-        error?.message || "GitHub sign in failed. Please try again later."
-      );
-    }
-  }
+  };
 
   return (
     <div className="page">
@@ -175,7 +178,7 @@ export default function SignUp() {
                     fullWidth
                     variant="contained"
                     color="secondary"
-                    onClick={() => googleLogIn()}
+                    onClick={() => logInWith3rdParty("google")}
                   >
                     Sign up with Google
                   </Button>
@@ -185,7 +188,7 @@ export default function SignUp() {
                     fullWidth
                     variant="contained"
                     color="secondary"
-                    onClick={() => gitHubLogIn()}
+                    onClick={() => logInWith3rdParty("github")}
                   >
                     Sign up with GitHub
                   </Button>

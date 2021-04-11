@@ -30,11 +30,42 @@ router.post("/signup", (req, res, next) => {
     });
 });
 
-router.post("/login", (req, res, next) => {
+router.post("/loginWithEmailAndPassword", (req, res, next) => {
   const { email, password } = req.body;
   console.log("LOG IN ATTEMPTED");
   auth()
     .signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      if (user) {
+        const isLoggedInWithEmailAndPw =
+          user.additionalUserInfo.providerId === "password";
+        const isEmailVerified = user.user.emailVerified;
+
+        !isEmailVerified && auth().currentUser.sendEmailVerification();
+
+        res.send({
+          userId: user.user.uid,
+          displayName: user.user.displayName,
+          email: user.user.email,
+          isLoggedInWithEmailAndPw,
+          isVerifiedToUseChatroom:
+            !isLoggedInWithEmailAndPw ||
+            (isLoggedInWithEmailAndPw && isEmailVerified),
+        });
+      } else throw { message: "No user details found." };
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
+});
+
+router.get("/logInWith3rdParty", (req, res, next) => {
+  const provider =
+    req.query.provider === "github"
+      ? new auth.GithubAuthProvider()
+      : new auth.GoogleAuthProvider();
+  auth()
+    .signInWithPopup(provider)
     .then((user) => {
       if (user) {
         const isLoggedInWithEmailAndPw =
