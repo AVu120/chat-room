@@ -31,6 +31,11 @@ export default function ChangeEmailAddress({ open, onClose, email, setError }) {
         setIsChangingEmailAddress(true);
         await changeEmailAddress(draftEmailAddress);
         setIsChangingEmailAddress(false);
+        setUserStatus((userStatus) => ({
+          ...userStatus,
+          showNotification: true,
+          notificationText: "Your email address has been successfully changed.",
+        }));
         onClose();
       } catch (error) {
         console.error(error);

@@ -17,13 +17,13 @@ const App = () => {
   const [userStatus, setUserStatus] = useState({
     isAuthenticated: false,
     hasDeletedAccount: false,
-    showNotification: false,
     notificationPosition: { vertical: "top", horizontal: "right" },
     userId: null,
     email: null,
     isLoggedInWithEmailAndPw: null,
     isVerifiedToUseChatroom: null,
     displayName: null,
+    showNotification: false,
     notificationText: "",
   });
 
@@ -31,13 +31,13 @@ const App = () => {
     setUserStatus((state) => ({
       ...state,
       hasDeletedAccount: false,
-      showNotification: false,
-      notificationText: "",
       userId: null,
       email: null,
       isLoggedInWithEmailAndPw: null,
       isVerifiedToUseChatroom: null,
       displayName: null,
+      showNotification: false,
+      notificationText: "",
     }));
 
   useEffect(() => {
