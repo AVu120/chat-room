@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { TextField, Button, makeStyles } from "@material-ui/core";
 import Header from "../../components/common/Header";
 import Footer from "../../components/common/Footer";
-import { db } from "../../services/firebase";
 import { logOut } from "../../helpers/auth";
 import styles from "./Chat.module.css";
 import ErrorMessage from "../../components/common/PopUpMessage";
