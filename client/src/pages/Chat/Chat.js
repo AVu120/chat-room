@@ -94,7 +94,7 @@ const Chat = ({ authenticated }) => {
         setReadError("There are no messages yet!");
       }
     };
-    readMessages();
+    userStatus?.isAllowedToUseChatroom && readMessages();
   }, []);
 
   useEffect(() => {

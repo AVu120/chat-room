@@ -42,28 +42,6 @@ io.on("connect", (socket) => {
     }
   });
 
-  auth().onAuthStateChanged((user) => {
-    if (user) {
-      const isLoggedInWithEmailAndPw =
-        user.providerData &&
-        user.providerData[0] &&
-        user.providerData[0].providerId === "password";
-      const isEmailVerified = user.emailVerified;
-
-      // !isEmailVerified && auth().currentUser.sendEmailVerification();
-
-      socket.emit("updateUserStatus", {
-        userId: user.uid,
-        displayName: user.displayName,
-        email: user.email,
-        isLoggedInWithEmailAndPw,
-        isAllowedToUseChatroom:
-          !isLoggedInWithEmailAndPw ||
-          (isLoggedInWithEmailAndPw && isEmailVerified),
-      });
-    }
-  });
-
   socket.on("disconnect", () => {
     db.ref("messages").off("value");
     console.log("Client disconnected");

@@ -98,10 +98,10 @@ router.get("/logout", async (req, res, next) => {
   }
 });
 
-router.get("/status", (req, res, next) => {
+router.get("/status", async (req, res, next) => {
   try {
     const user = auth().currentUser;
-
+    await user.reload();
     if (user) {
       const isLoggedInWithEmailAndPw =
         user.providerData[0].providerId === "password";
