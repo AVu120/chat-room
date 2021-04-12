@@ -9,17 +9,15 @@ router.post("/signUp", (req, res, next) => {
     .then((user) => {
       if (user) {
         const isLoggedInWithEmailAndPw =
-          user.providerData &&
-          user.providerData[0] &&
-          user.providerData[0].providerId === "password";
-        const isEmailVerified = user.emailVerified;
+          user.additionalUserInfo.providerId === "password";
+        const isEmailVerified = user.user.emailVerified;
 
         !isEmailVerified && auth().currentUser.sendEmailVerification();
 
         res.send({
-          userId: user.uid,
-          displayName: user.displayName,
-          email: user.email,
+          userId: user.user.uid,
+          displayName: user.user.displayName,
+          email: user.user.email,
           isLoggedInWithEmailAndPw,
           isAllowedToUseChatroom:
             !isLoggedInWithEmailAndPw ||

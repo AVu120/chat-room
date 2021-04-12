@@ -61,7 +61,7 @@ const Chat = ({ authenticated }) => {
           body: JSON.stringify({
             content: draftMessage.trim(),
             timestamp: Date.now(),
-            uid: userStatus.userId,
+            uid: userStatus?.userId,
             displayName,
           }),
         });
@@ -115,9 +115,9 @@ const Chat = ({ authenticated }) => {
       setMessages(updatedMessages)
     );
 
-    socket.on("updateUserStatus", (updatedUserStatus) =>
-      setUserStatus((userStatus) => ({ ...userStatus, updatedUserStatus }))
-    );
+    socket.on("updateUserStatus", (updatedUserStatus) => {
+      setUserStatus((userStatus) => ({ ...userStatus, updatedUserStatus }));
+    });
 
     return () => socket.disconnect();
   }, []);
@@ -134,12 +134,12 @@ const Chat = ({ authenticated }) => {
       />
       <section
         className={
-          userStatus.isAllowedToUseChatroom
+          userStatus?.isAllowedToUseChatroom
             ? styles.midSection
             : styles.midSection__unverifiedAccess
         }
       >
-        {userStatus.isAllowedToUseChatroom ? (
+        {userStatus?.isAllowedToUseChatroom ? (
           <>
             <div
               className={styles.messages}
@@ -158,7 +158,7 @@ const Chat = ({ authenticated }) => {
                   >
                     {
                       // If the message is sent by another user.
-                      userStatus.userId !== senderId &&
+                      userStatus?.userId !== senderId &&
                         // The sender didn't send the previous message OR
                         // they changed display names between sending this message and
                         // the previous message.
@@ -175,7 +175,7 @@ const Chat = ({ authenticated }) => {
                       // Position your messages on right-side and all other messages on left.
                       className={`${styles.message}  ${
                         // If message is sent by current user, position on right-side and style differently.
-                        userStatus.userId === senderId
+                        userStatus?.userId === senderId
                           ? styles.message__yours
                           : ""
                       }`}
@@ -219,7 +219,7 @@ const Chat = ({ authenticated }) => {
         ) : (
           <div className={styles.verifyEmailMessage}>
             <p className={styles.verifyEmailMessage_sentence}>
-              {`A request to verify your email address has been emailed to ${userStatus.email}.`}
+              {`A request to verify your email address has been emailed to ${userStatus?.email}.`}
             </p>
             <p className={styles.verifyEmailMessage_sentence}>
               Please check your email inbox.
