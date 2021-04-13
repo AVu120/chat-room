@@ -16,7 +16,7 @@ import ChangeDisplayName from "../common/chat/ChangeDisplayName";
 import ChangeEmailAddress from "../common/ChangeEmailAddress";
 import ConfirmDeleteAccountPrompt from "../common/ConfirmationPrompt";
 import ErrorMessage from "../../components/common/PopUpMessage";
-import { auth } from "../../services/firebase";
+import { deleteAccount } from "../../helpers/auth";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,22 +79,6 @@ export default function Header({
     setShowConfirmationPrompt(!showConfirmationPrompt);
 
   const acknowledgeErrorMessage = () => setErrorMessage(null);
-  const onDeleteAccount = async () => {
-    auth()
-      .currentUser.delete()
-      .then(() => {
-        setUserStatus((state) => ({
-          ...state,
-          hasDeletedAccount: true,
-          showNotification: true,
-          text: "Your account has been deleted.",
-        }));
-      })
-      .catch((deleteError) => {
-        toggleDeleteAccountPrompt();
-        deleteError && setErrorMessage(deleteError.message);
-      });
-  };
 
   return (
     <div className={classes.root}>
@@ -160,7 +144,13 @@ export default function Header({
       <ConfirmDeleteAccountPrompt
         open={showConfirmationPrompt}
         onClose={toggleDeleteAccountPrompt}
-        onAccept={onDeleteAccount}
+        onAccept={() =>
+          deleteAccount({
+            setUserStatus,
+            toggleDeleteAccountPrompt,
+            setErrorMessage,
+          })
+        }
         setError={setError}
         title="Are you sure you want to delete your account?"
         message="After your account has been deleted, you will be automatically directed to the login page."
