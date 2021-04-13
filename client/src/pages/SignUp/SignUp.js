@@ -102,7 +102,7 @@ export default function SignUp() {
                     </Button>
                   )}
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -135,7 +135,7 @@ export default function SignUp() {
                   >
                     Sign up with GitHub
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
               <Box mt={2}>
                 <Grid container justify="flex-end">

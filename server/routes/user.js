@@ -51,7 +51,7 @@ router.post("/logInWithEmailAndPassword", (req, res, next) => {
             !isLoggedInWithEmailAndPw ||
             (isLoggedInWithEmailAndPw && isEmailVerified),
         });
-      } else throw { message: "No user details found." };
+      } else throw new Error({ message: "No user details found." });
     })
     .catch((error) => {
       res.status(500).send(error.message || error);

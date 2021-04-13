@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { auth } from "../../../services/firebase";
+// import { auth } from "../../../services/firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,19 +32,20 @@ export default function ChangeDisplayName({
     event.preventDefault();
     if (draftDisplayName && draftDisplayName !== displayName) {
       setIsChangingDisplayName(true);
-      auth()
-        .currentUser.updateProfile({
-          displayName: draftDisplayName,
-        })
-        .then(() => {
-          setIsChangingDisplayName(false);
-          setDisplayName(draftDisplayName);
-          onClose();
-        })
-        .catch((error) => {
-          console.error(error);
-          setError(error.message);
-        });
+      // auth()
+      //   .currentUser.updateProfile({
+      //     displayName: draftDisplayName,
+      //   })
+      //   .then(() => {
+      //     setIsChangingDisplayName(false);
+      //     setDisplayName(draftDisplayName);
+      //     onClose();
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //     setError(error.message);
+      //   });
+      console.log("DISPLAY NAME CHANGE");
     } else if (draftDisplayName === displayName) onClose();
     else alert("Cannot save an empty display name.");
   };

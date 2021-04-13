@@ -217,16 +217,24 @@ const Chat = ({ authenticated }) => {
             </div>
           </>
         ) : (
-          <div className={styles.verifyEmailMessage}>
+          <div
+            className={styles.verifyEmailMessage}
+            style={{ height: `${screenDimensions.height - 125}px` }}
+          >
             <p className={styles.verifyEmailMessage_sentence}>
               {`A request to verify your email address has been emailed to ${userStatus?.email}.`}
             </p>
-            <p className={styles.verifyEmailMessage_sentence}>
+            {/* <p className={styles.verifyEmailMessage_sentence}>
               Please check your email inbox.
+            </p> */}
+            <p className={styles.verifyEmailMessage_sentence}>
+              After you have verified your email, click{" "}
+              <a href="/login">here</a> to enter the chatroom.
             </p>
             <p className={styles.verifyEmailMessage_sentence}>
-              After you have verified your email, click <a href="/chat">here</a>{" "}
-              and you will automatically log in and enter the chatroom.
+              Please do not click the above link too frequently as Google
+              Firebase may disable app access from your device due to unusually
+              frequent activity.
             </p>
           </div>
         )}
