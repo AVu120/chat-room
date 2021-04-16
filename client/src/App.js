@@ -51,17 +51,17 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <PrivateRoute
             path="/chat"
-            authenticated={userStatus.isAuthenticated}
+            isAuthenticated={userStatus.isAuthenticated}
             component={Chat}
           />
           <PublicRoute
             path="/signup"
-            authenticated={userStatus.isAuthenticated}
+            isAuthenticated={userStatus.isAuthenticated}
             component={SignUp}
           />
           <PublicRoute
             path="/login"
-            authenticated={userStatus.isAuthenticated}
+            isAuthenticated={userStatus.isAuthenticated}
             component={LogIn}
           />
         </Switch>

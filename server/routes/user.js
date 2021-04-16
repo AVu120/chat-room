@@ -171,4 +171,18 @@ router.delete("/account", async (req, res, next) => {
     console.error(error.message || error);
   }
 });
+
+router.put("/displayName", async (req, res, next) => {
+  const { draftDisplayName } = req.body;
+  auth()
+    .currentUser.updateProfile({
+      displayName: draftDisplayName,
+    })
+    .then(() => {
+      res.send("Display name successfully changed.");
+    })
+    .catch((error) => {
+      res.status(500).send(error.message);
+    });
+});
 module.exports = router;

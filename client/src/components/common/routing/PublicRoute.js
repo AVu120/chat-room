@@ -1,11 +1,11 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const PublicRoute = ({ component: Component, authenticated }) => {
+const PublicRoute = ({ component: Component, isAuthenticated }) => {
   return (
     <Route
       render={(props) =>
-        !authenticated ? <Component {...props} /> : <Redirect to="/chat" />
+        !isAuthenticated ? <Component {...props} /> : <Redirect to="/chat" />
       }
     />
   );

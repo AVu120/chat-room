@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Chat = ({ authenticated }) => {
+const Chat = ({ isAuthenticated }) => {
   const classes = useStyles();
   const { userStatus, setUserStatus } = useContext(UserStatusContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,9 +30,6 @@ const Chat = ({ authenticated }) => {
   const [readError, setReadError] = useState(null);
   const [writeError, setWriteError] = useState(null);
   const [otherError, setOtherError] = useState(null);
-  const [displayName, setDisplayName] = useState(
-    userStatus?.displayName || userStatus?.email
-  );
   const [screenDimensions, setScreenDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth,
@@ -62,7 +59,7 @@ const Chat = ({ authenticated }) => {
             content: draftMessage.trim(),
             timestamp: Date.now(),
             uid: userStatus?.userId,
-            displayName,
+            displayName: userStatus.displayName || userStatus.email,
           }),
         });
         setIsLoading(false);
@@ -127,8 +124,7 @@ const Chat = ({ authenticated }) => {
       <Header
         userStatus={userStatus}
         setUserStatus={setUserStatus}
-        setDisplayName={setDisplayName}
-        authenticated={authenticated}
+        isAuthenticated={isAuthenticated}
         logOut={() => logOut(setUserStatus, setOtherError)}
         setError={setOtherError}
       />

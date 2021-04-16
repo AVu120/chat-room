@@ -249,3 +249,45 @@ export const deleteAccount = async ({
     console.error("CONSOLED ERROR:", error);
   }
 };
+
+export const changeDisplayName = async ({
+  event,
+  draftDisplayName,
+  displayName,
+  setIsChangingDisplayName,
+  setUserStatus,
+  onClose,
+  setError,
+}) => {
+  event?.preventDefault();
+  if (draftDisplayName && draftDisplayName !== displayName) {
+    setIsChangingDisplayName(true);
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_API_URL}/user/displayName`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ draftDisplayName }),
+        }
+      );
+      if (response.ok) {
+        setUserStatus((userStatus) => ({
+          ...userStatus,
+          displayName: draftDisplayName,
+        }));
+        setIsChangingDisplayName(false);
+        onClose();
+      } else {
+        const errorText = await response.text();
+        throw new Error(errorText);
+      }
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
+  } else if (draftDisplayName === displayName) onClose();
+  else alert("Cannot save an empty display name.");
+};

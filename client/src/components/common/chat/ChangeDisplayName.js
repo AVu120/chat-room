@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Button,
   Dialog,
@@ -8,8 +8,9 @@ import {
   TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-// import { auth } from "../../../services/firebase";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { changeDisplayName } from "../../../helpers/auth";
+import { UserStatusContext } from "../../../App";
 
 const useStyles = makeStyles((theme) => ({
   cancelButton: {},
@@ -20,39 +21,30 @@ const useStyles = makeStyles((theme) => ({
 export default function ChangeDisplayName({
   open,
   onClose,
-  setDisplayName,
   displayName,
   setError,
 }) {
+  const { setUserStatus } = useContext(UserStatusContext);
   const classes = useStyles();
   const [isChangingDisplayName, setIsChangingDisplayName] = useState(false);
   const [draftDisplayName, setDraftDisplayName] = useState(displayName);
 
-  const onSave = (event) => {
-    event.preventDefault();
-    if (draftDisplayName && draftDisplayName !== displayName) {
-      setIsChangingDisplayName(true);
-      // auth()
-      //   .currentUser.updateProfile({
-      //     displayName: draftDisplayName,
-      //   })
-      //   .then(() => {
-      //     setIsChangingDisplayName(false);
-      //     setDisplayName(draftDisplayName);
-      //     onClose();
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //     setError(error.message);
-      //   });
-      console.log("DISPLAY NAME CHANGE");
-    } else if (draftDisplayName === displayName) onClose();
-    else alert("Cannot save an empty display name.");
-  };
   return (
     <div>
       <Dialog open={open} keepMounted>
-        <form onSubmit={onSave}>
+        <form
+          onSubmit={(event) =>
+            changeDisplayName({
+              event,
+              draftDisplayName,
+              displayName,
+              setIsChangingDisplayName,
+              setUserStatus,
+              onClose,
+              setError,
+            })
+          }
+        >
           <DialogTitle id="alert-dialog-slide-title">
             {"Edit Your Display Name"}
           </DialogTitle>

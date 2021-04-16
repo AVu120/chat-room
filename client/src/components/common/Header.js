@@ -44,8 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({
   userStatus,
   setUserStatus,
-  authenticated,
-  setDisplayName,
+  isAuthenticated,
   logOut,
   setError,
 }) {
@@ -88,7 +87,7 @@ export default function Header({
           <Typography variant="h5" className={classes.title}>
             Room
           </Typography>
-          {authenticated && (
+          {isAuthenticated && (
             <>
               <Typography variant="subtitle2">
                 {`Display name is `}
@@ -131,7 +130,6 @@ export default function Header({
       <ChangeDisplayName
         open={showChangeDisplayNameWindow}
         onClose={toggleChangeDisplayNameWindow}
-        setDisplayName={setDisplayName}
         displayName={displayName}
         setError={setError}
       />
