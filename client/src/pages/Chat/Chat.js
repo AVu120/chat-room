@@ -141,7 +141,7 @@ const Chat = ({ isAuthenticated }) => {
           <>
             <div
               className={styles.messages}
-              style={{ height: `${screenDimensions.height - 240}px` }}
+              style={{ height: `${screenDimensions.height - 245}px` }}
             >
               {messages.map((message, i) => {
                 const prevMessageSenderId = messages[i - 1]?.uid;
@@ -187,7 +187,9 @@ const Chat = ({ isAuthenticated }) => {
               })}
               <div ref={messagesEndRef} />
             </div>
-            {readError && !messages.length && <div>{readError}</div>}
+            {readError && !messages.length && (
+              <div className={styles.readError}>{readError}</div>
+            )}
 
             <div className={styles.form}>
               <TextField

@@ -35,8 +35,10 @@ io.on("connect", (socket) => {
   // Whenever there is a new message in the db, send all to client.
   db.ref("messages").on("value", (snapshot) => {
     try {
-      if (snapshot.val())
-        socket.emit("updateMessages", Object.values(snapshot.val()));
+      const fullSnapshot = snapshot.val();
+      if (fullSnapshot) {
+        socket.emit("updateMessages", Object.values(fullSnapshot));
+      }
     } catch (readError) {
       setReadError(readError.message);
     }
