@@ -47,7 +47,6 @@ export default function ResetPassword({
       setIsSendingResetPasswordEmail,
       setUserStatus,
       setError,
-      onClose,
       showNotification: false,
       showSendingProgress: false,
     });
