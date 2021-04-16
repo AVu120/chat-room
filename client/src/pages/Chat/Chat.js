@@ -92,6 +92,7 @@ const Chat = ({ isAuthenticated }) => {
       }
     };
     userStatus?.isAllowedToUseChatroom && readMessages();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -117,6 +118,7 @@ const Chat = ({ isAuthenticated }) => {
     });
 
     return () => socket.disconnect();
+    // eslint-disable-next-line
   }, []);
 
   return (
