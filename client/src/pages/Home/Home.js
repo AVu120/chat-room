@@ -10,7 +10,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       padding: 5,
-      // fontWeight: "bold",
     },
   },
 }));
