@@ -11,12 +11,13 @@ import {
 } from "@material-ui/icons";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import DowndownMenu from "../common/DropdownMenu";
-import ResetPassword from "./ResetPassword";
+import ResetPassword from "../common/ResetPassword";
 import ChangeDisplayName from "../common/chat/ChangeDisplayName";
 import ChangeEmailAddress from "../common/ChangeEmailAddress";
 import ConfirmDeleteAccountPrompt from "../common/ConfirmationPrompt";
-import ErrorMessage from "../../components/common/PopUpMessage";
+import ErrorMessage from "../common/PopUpMessage";
 import { deleteAccount } from "../../helpers/auth";
+import styles from "./Header.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,8 +90,10 @@ export default function Header({
           </Typography>
           {isAuthenticated && (
             <>
-              <Typography variant="subtitle2">
-                {`Display name is `}
+              <Typography variant="subtitle2" style={{ display: "flex" }}>
+                <div
+                  className={styles.display_name}
+                >{`Display name:\u00A0`}</div>
                 <strong>{displayName}</strong>
               </Typography>
               <DowndownMenu

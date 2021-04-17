@@ -12,7 +12,7 @@ import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import PopUpMessage from "../../components/common/PopUpMessage";
-import Header from "../../components/common/Header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/common/Footer";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { UserStatusContext } from "../../App";

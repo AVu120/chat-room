@@ -238,6 +238,7 @@ export const deleteAccount = async ({
         isLoggedInWithEmailAndPw: null,
         isAllowedToUseChatroom: null,
         showNotification: true,
+        notificationSeverity: "success",
         notificationText: "Successfully deleted account.",
       }));
     } else {

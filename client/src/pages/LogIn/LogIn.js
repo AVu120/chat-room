@@ -12,7 +12,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserStatusContext } from "../../App";
 import Footer from "../../components/common/Footer";
-import Header from "../../components/common/Header";
+import Header from "../../components/Header/Header";
 import PopUpMessage from "../../components/common/PopUpMessage";
 import ResetPassword from "../../components/common/ResetPassword";
 import {

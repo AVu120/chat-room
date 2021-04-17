@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { TextField, Button, makeStyles } from "@material-ui/core";
-import Header from "../../components/common/Header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/common/Footer";
 import { logOut } from "../../helpers/auth";
 import styles from "./Chat.module.css";
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   draftMessageInputField: {
     margin: "10px 0",
     width: "90vw",
+    // height: "5vh",
   },
 }));
 
