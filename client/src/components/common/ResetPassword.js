@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   cancelButton: {},
   saveButton: {},
   loadingIcon: { margin: "0 10px 10px 0" },
+  dialogContent: { marginBottom: 0, marginTop: "-10px" },
 }));
 
 export default function ResetPassword({
@@ -85,7 +86,7 @@ export default function ResetPassword({
             }
           >
             <DialogContent>
-              <p>Enter your email address:</p>
+              <p className={classes.dialogContent}>Enter your email address:</p>
               <TextField
                 variant="outlined"
                 margin="normal"

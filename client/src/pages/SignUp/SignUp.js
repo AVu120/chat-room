@@ -20,7 +20,7 @@ import Copyright from "../../components/common/CopyrightMessage";
 import { useStyles } from "./SignUp.style";
 import {
   SignUpWithEmailAndPassword,
-  // logInWith3rdParty,
+  logInWith3rdParty,
 } from "../../helpers/auth";
 
 export default function SignUp() {
@@ -102,11 +102,27 @@ export default function SignUp() {
                     </Button>
                   )}
                 </Grid>
-                {/* <Grid item xs={12} sm={6}>
+                <Grid container>
+                  <Grid item xs={5}></Grid>
+                  <Grid item xs>
+                    <Link
+                      to="/login"
+                      style={{
+                        textDecoration: "none",
+                        position: "relative",
+                        left: "25px",
+                      }}
+                    >
+                      Already have an account? Login
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Grid item xs={6}>
                   <Button
                     fullWidth
                     variant="contained"
                     color="secondary"
+                    size="small"
                     onClick={() =>
                       logInWith3rdParty({
                         provider: "google",
@@ -119,11 +135,12 @@ export default function SignUp() {
                     Sign up with Google
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={6}>
                   <Button
                     fullWidth
                     variant="contained"
                     color="secondary"
+                    size="small"
                     onClick={() =>
                       logInWith3rdParty({
                         provider: "github",
@@ -135,17 +152,9 @@ export default function SignUp() {
                   >
                     Sign up with GitHub
                   </Button>
-                </Grid> */}
-              </Grid>
-              <Box mt={2}>
-                <Grid container justify="flex-end">
-                  <Grid item>
-                    <Link to="/login" style={{ textDecoration: "none" }}>
-                      Already have an account? Login
-                    </Link>
-                  </Grid>
                 </Grid>
-              </Box>
+              </Grid>
+
               <Box mt={2}>
                 <Copyright />
               </Box>
