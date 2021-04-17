@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/* I know this file is very messy and excessively large, I should abstract everything out into separate files
+   to reduce this file's size and increase readability/maintainability. 
+   I'm just too lazy right now, maybe later. */
 const Chat = ({ isAuthenticated }) => {
   const classes = useStyles();
   const { userStatus, setUserStatus } = useContext(UserStatusContext);
