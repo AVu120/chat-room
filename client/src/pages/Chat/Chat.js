@@ -245,7 +245,7 @@ const Chat = ({ isAuthenticated }) => {
                 multiline={true}
                 helperText={writeError}
                 error={Boolean(writeError)}
-                placeholder="Type your message here then click send."
+                placeholder="Type your message here."
                 onKeyPress={(e) => {
                   if ((e.key === "Enter") & !e.shiftKey) sendMessage();
                 }}
