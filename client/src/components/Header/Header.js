@@ -160,7 +160,7 @@ export default function Header({
         }
         setError={setError}
         title="Are you sure you want to delete your account?"
-        message="After your account has been deleted, you will be automatically directed to the login page."
+        message="After your account has been deleted, you will automatically be directed to the login page."
       />
       <ErrorMessage
         title="Error"

@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   cancelButton: {},
   saveButton: {},
   loadingIcon: { margin: "0 10px 10px 0" },
+  dialogContentText: { marginBottom: "-5px", marginTop: "-5px" },
 }));
 
 export default function ChangeEmailAddress({ open, onClose, email, setError }) {
@@ -53,7 +54,9 @@ export default function ChangeEmailAddress({ open, onClose, email, setError }) {
             Change Login Email
           </DialogTitle>
           <DialogContent>
-            <p>Type your new login email address.</p>
+            <p className={classes.dialogContentText}>
+              Type your new login email address.
+            </p>
             <TextField
               variant="outlined"
               margin="normal"
