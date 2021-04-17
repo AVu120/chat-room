@@ -102,22 +102,8 @@ export default function SignUp() {
                     </Button>
                   )}
                 </Grid>
-                <Grid container>
-                  <Grid item xs={5}></Grid>
-                  <Grid item xs>
-                    <Link
-                      to="/login"
-                      style={{
-                        textDecoration: "none",
-                        position: "relative",
-                        left: "25px",
-                      }}
-                    >
-                      Already have an account? Login
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Grid item xs={6}>
+
+                {/* <Grid item xs={6}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -152,9 +138,17 @@ export default function SignUp() {
                   >
                     Sign up with GitHub
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
-
+              <Box mt={2}>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link to="/login" style={{ textDecoration: "none" }}>
+                      Already have an account? Login
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
               <Box mt={2}>
                 <Copyright />
               </Box>
