@@ -75,8 +75,9 @@ const Chat = ({ isAuthenticated }) => {
             ...userStatus,
             showNotification: true,
             notificationSeverity: "error",
-            notificationText:
-              "You have been logged out, please log in again before sending another message.",
+            notificationText: errorResponse.code.includes("PERMISSION_DENIED")
+              ? "You have been logged out, please log in again before sending another message."
+              : errorResponse.code,
           }));
         }
         setIsLoading(false);
@@ -212,9 +213,9 @@ const Chat = ({ isAuthenticated }) => {
                           : ""
                       }`}
                     >
-                      <p className={styles.message_content}>
+                      <div className={styles.message_content}>
                         {message.content}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 );
