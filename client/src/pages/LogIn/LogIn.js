@@ -58,6 +58,7 @@ export default function LogIn() {
               }
             >
               <TextField
+                style={{ marginBottom: "-0.25px" }}
                 variant="outlined"
                 margin="normal"
                 required
