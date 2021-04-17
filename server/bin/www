@@ -8,7 +8,7 @@ var app = require("../app");
 var debug = require("debug")("server:server");
 var http = require("http");
 const socketIO = require("socket.io");
-const { db, auth } = require("../services/firebase");
+const { db } = require("../services/firebase");
 
 /**
  * Get port from environment and store in Express.
@@ -32,7 +32,7 @@ const io = socketIO(server, {
 io.on("connect", (socket) => {
   console.log("New client connected");
 
-  // Whenever there is a new message in the db, send all to client.
+  // Whenever there is a new message in the db, publish to all clients.
   db.ref("messages").on("value", (snapshot) => {
     try {
       const fullSnapshot = snapshot.val();
@@ -49,11 +49,6 @@ io.on("connect", (socket) => {
   socket.on("disconnect", () => {
     db.ref("messages").off("value");
     console.log("Client disconnected");
-  });
-
-  socket.on("connect_error", () => {
-    db.ref("messages").off("value");
-    socket.emit("serverError", "Connection to server is broken.");
   });
 });
 
