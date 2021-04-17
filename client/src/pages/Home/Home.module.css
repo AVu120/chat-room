@@ -1,19 +1,22 @@
 .title__mainFlexContainer {
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 .title__main {
-  font-size: 50px;
+  font-size: 2rem;
   padding: 0;
   margin-bottom: -10px;
   margin: 0;
 }
 
 .title__secondaryFlexContainer {
+  font-size: 1rem;
   display: flex;
   justify-content: center;
   position: relative;
   top: -15px;
+  text-align: center;
 }
 
 .buttons__flexContainer {
