@@ -37,10 +37,12 @@ io.on("connect", (socket) => {
     try {
       const fullSnapshot = snapshot.val();
       if (fullSnapshot) {
-        socket.emit("updateMessages", Object.values(fullSnapshot));
+        const orderedMessages = Object.values(fullSnapshot);
+        const newMessage = orderedMessages[orderedMessages.length - 1];
+        socket.emit("sendMessage", newMessage);
       }
-    } catch (readError) {
-      setReadError(readError.message);
+    } catch (error) {
+      console.error(error.message);
     }
   });
 
@@ -112,4 +114,5 @@ function onListening() {
   var addr = server.address();
   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
   debug("Listening on " + bind);
+  console.log("Listening on " + bind);
 }

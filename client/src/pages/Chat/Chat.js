@@ -27,7 +27,7 @@ const Chat = ({ isAuthenticated }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [draftMessage, setDraftMessage] = useState("");
-  const [readError, setReadError] = useState(null);
+  const [readStatus, setReadStatus] = useState(null);
   const [writeError, setWriteError] = useState(null);
   const [otherError, setOtherError] = useState(null);
   const [screenDimensions, setScreenDimensions] = useState({
@@ -46,7 +46,7 @@ const Chat = ({ isAuthenticated }) => {
   const sendMessage = async () => {
     // Check if message has content and isn't just spaces & newline characters.
     if (draftMessage && draftMessage.trim().replace(/[\r\n]+/gm, "")) {
-      readError && setReadError(null);
+      readStatus && setReadStatus(null);
       writeError && setWriteError(null);
       setIsLoading(true);
       try {
@@ -88,7 +88,7 @@ const Chat = ({ isAuthenticated }) => {
       if (retrievedMessages?.length) setMessages(retrievedMessages);
       else {
         setMessages([]);
-        setReadError("There are no messages yet!");
+        setReadStatus("There are no messages yet!");
       }
     };
     userStatus?.isAllowedToUseChatroom && readMessages();
@@ -109,9 +109,22 @@ const Chat = ({ isAuthenticated }) => {
   useEffect(() => {
     const socket = socketIOClient(process.env.REACT_APP_BASE_API_URL);
 
-    socket.on("updateMessages", (updatedMessages) =>
-      setMessages(updatedMessages)
-    );
+    socket.on("sendMessage", (newMessage) => {
+      setMessages((prevMessages) => {
+        const numberOfPrevMessages = prevMessages.length;
+        let lastMessage, isDuplicateMessage;
+        if (numberOfPrevMessages) {
+          lastMessage = prevMessages[prevMessages.length - 1];
+          isDuplicateMessage =
+            lastMessage.uid === newMessage.uid &&
+            lastMessage.timestamp === newMessage.timestamp;
+        }
+
+        return numberOfPrevMessages === 0 || !isDuplicateMessage
+          ? [...prevMessages, newMessage]
+          : prevMessages;
+      });
+    });
 
     socket.on("updateUserStatus", (updatedUserStatus) => {
       setUserStatus((userStatus) => ({ ...userStatus, updatedUserStatus }));
@@ -187,8 +200,8 @@ const Chat = ({ isAuthenticated }) => {
               })}
               <div ref={messagesEndRef} />
             </div>
-            {readError && !messages.length && (
-              <div className={styles.readError}>{readError}</div>
+            {readStatus && !messages.length && (
+              <div className={styles.readStatus}>{readStatus}</div>
             )}
 
             <div className={styles.form}>
