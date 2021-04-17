@@ -29,12 +29,22 @@ export const HomePage = () => {
         <div className={styles.buttons__flexContainer}>
           <div className={styles.buttons__gridContainer}>
             <Link to="/signup" style={{ textDecoration: "none" }}>
-              <Button variant="contained" color="primary" classes={classes}>
+              <Button
+                variant="contained"
+                color="primary"
+                classes={classes}
+                size="small"
+              >
                 Create New Account
               </Button>
             </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>
-              <Button variant="contained" color="secondary" classes={classes}>
+              <Button
+                variant="contained"
+                color="secondary"
+                classes={classes}
+                size="small"
+              >
                 Login to Your Account
               </Button>
             </Link>
