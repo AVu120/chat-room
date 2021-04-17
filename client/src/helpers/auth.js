@@ -1,3 +1,5 @@
+const baseApiUrl = process.env.REACT_APP_BASE_API_URL || "";
+
 export const SignUpWithEmailAndPassword = async ({
   event,
   email,
@@ -10,16 +12,13 @@ export const SignUpWithEmailAndPassword = async ({
     event?.preventDefault();
     if (email && password) {
       setIsLoading(true);
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/signUp`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${baseApiUrl}/user/signUp`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
       setIsLoading(false);
       if (response.ok) {
         const responseJson = await response.json();
@@ -55,7 +54,7 @@ export const logInWithEmailAndPassword = async ({
     if (email && password) {
       setIsLoading(true);
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/logInWithEmailAndPassword`,
+        `${baseApiUrl}/user/logInWithEmailAndPassword`,
         {
           method: "POST",
           headers: {
@@ -97,7 +96,7 @@ export const logInWith3rdParty = async ({
   try {
     setIsLoading(true);
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/logInWith3rdParty?provider=${provider}`
+      `${baseApiUrl}/user/logInWith3rdParty?provider=${provider}`
     );
     setIsLoading(false);
     if (response.ok) {
@@ -123,9 +122,7 @@ export const logInWith3rdParty = async ({
 // Exit application.
 export const logOut = async (setUserStatus, setError) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/logout`
-    );
+    const response = await fetch(`${baseApiUrl}/user/logout`);
     if (response.ok)
       setUserStatus({
         isAuthenticated: false,
@@ -161,9 +158,7 @@ export const sendResetPasswordEmail = async ({
     if (isValidEmail(emailValue.trim())) {
       showSendingProgress && setIsSendingResetPasswordEmail(true);
       const response = await fetch(
-        `${
-          process.env.REACT_APP_BASE_API_URL
-        }/user/resetPassword?email=${emailValue.trim()}`
+        `${baseApiUrl}/user/resetPassword?email=${emailValue.trim()}`
       );
       showSendingProgress && setIsSendingResetPasswordEmail(false);
       if (response.ok)
@@ -187,9 +182,7 @@ export const sendResetPasswordEmail = async ({
 
 export const changeLogInEmail = (newEmail) => {
   try {
-    fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/changeLogInEmail?newEmail=${newEmail}`
-    );
+    fetch(`${baseApiUrl}/user/changeLogInEmail?newEmail=${newEmail}`);
   } catch (error) {
     console.error(error);
   }
@@ -197,9 +190,7 @@ export const changeLogInEmail = (newEmail) => {
 
 export const checkAuthStatus = async (setUserStatus) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/status`
-    );
+    const response = await fetch(`${baseApiUrl}/user/status`);
     if (response.ok) {
       const responseJson = await response.json();
       setUserStatus((state) => ({
@@ -221,12 +212,9 @@ export const deleteAccount = async ({
   setErrorMessage,
 }) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/account`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`${baseApiUrl}/user/account`, {
+      method: "DELETE",
+    });
 
     if (response.ok) {
       setUserStatus((userStatus) => ({
@@ -264,16 +252,13 @@ export const changeDisplayName = async ({
   if (draftDisplayName && draftDisplayName !== displayName) {
     setIsChangingDisplayName(true);
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/displayName`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ draftDisplayName }),
-        }
-      );
+      const response = await fetch(`${baseApiUrl}/user/displayName`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ draftDisplayName }),
+      });
       if (response.ok) {
         setUserStatus((userStatus) => ({
           ...userStatus,

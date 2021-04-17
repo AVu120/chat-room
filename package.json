@@ -1,0 +1,21 @@
+{
+  "name": "chat-room",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">Chat Room App</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm i && npm run build",
+    "start": "cd server && npm i && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AVu120/chat-room.git"
+  },
+  "author": "Anthony Hien Vu <AVu120@gmail.com> (https://avu120.github.io/portfolio/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AVu120/chat-room/issues"
+  },
+  "homepage": "https://github.com/AVu120/chat-room#readme"
+}

@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
   draftMessageInputField: {
     margin: "10px 0",
     width: "90vw",
-    // height: "5vh",
   },
 }));
+const baseApiUrl = process.env.REACT_APP_BASE_API_URL || "";
 
 /* I know this file is very messy and excessively large, I should abstract everything out into separate files
    to reduce this file's size and increase readability/maintainability. 
@@ -54,21 +54,18 @@ const Chat = ({ isAuthenticated }) => {
       writeError && setWriteError(null);
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BASE_API_URL}/messages`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              content: draftMessage.trim(),
-              timestamp: Date.now(),
-              uid: userStatus?.userId,
-              displayName: userStatus.displayName || userStatus.email,
-            }),
-          }
-        );
+        const response = await fetch(`${baseApiUrl}/messages`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: draftMessage.trim(),
+            timestamp: Date.now(),
+            uid: userStatus?.userId,
+            displayName: userStatus.displayName || userStatus.email,
+          }),
+        });
         if (!response.ok) {
           const errorResponse = await response.json();
           setWriteError(errorResponse.code);
@@ -100,9 +97,7 @@ const Chat = ({ isAuthenticated }) => {
   // Read messages from Google Firebase Realtime Database
   useEffect(() => {
     const readMessages = async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/messages`
-      );
+      const response = await fetch(`${baseApiUrl}/messages`);
       const retrievedMessages = await response.json();
       if (retrievedMessages?.length) setMessages(retrievedMessages);
       else {
@@ -126,7 +121,7 @@ const Chat = ({ isAuthenticated }) => {
   });
 
   useEffect(() => {
-    const socket = socketIOClient(process.env.REACT_APP_BASE_API_URL);
+    const socket = socketIOClient(`${baseApiUrl}/`);
 
     socket.on("sendMessage", (newMessage) => {
       setMessages((prevMessages) => {

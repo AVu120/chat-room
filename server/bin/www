@@ -22,12 +22,15 @@ app.set("port", port);
  */
 
 var server = http.createServer(app);
-const io = socketIO(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+const io = socketIO(
+  server
+  //   , {
+  //   cors: {
+  //     origin: "*",
+  //     methods: ["GET", "POST"],
+  //   },
+  // }
+);
 
 io.on("connect", (socket) => {
   console.log("New client connected");
