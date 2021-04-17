@@ -243,7 +243,14 @@ const Chat = ({ isAuthenticated }) => {
                 className={classes.draftMessageInputField}
                 variant="outlined"
                 multiline={true}
-                helperText={writeError}
+                helperText={
+                  // writeError
+                  <div style={{ position: "relative", height: 0, width: 0 }}>
+                    <div style={{ position: "absolute", top: "-2px" }}>
+                      {writeError}
+                    </div>
+                  </div>
+                }
                 error={Boolean(writeError)}
                 placeholder="Type your message here."
                 onKeyPress={(e) => {

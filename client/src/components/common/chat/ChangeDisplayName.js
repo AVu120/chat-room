@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   cancelButton: {},
   saveButton: {},
   loadingIcon: { margin: "0 10px 10px 0" },
+  dialogContentText: { marginBottom: "-5px", marginTop: "-5px" },
 }));
 
 export default function ChangeDisplayName({
@@ -49,7 +50,9 @@ export default function ChangeDisplayName({
             {"Edit Your Display Name"}
           </DialogTitle>
           <DialogContent>
-            <p>Everyone in this chatroom will see this.</p>
+            <p className={classes.dialogContentText}>
+              Everyone in this chatroom will see you as this.
+            </p>
             <TextField
               variant="outlined"
               margin="normal"

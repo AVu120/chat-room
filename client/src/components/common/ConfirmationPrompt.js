@@ -6,12 +6,22 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-const ConfirmationPrompt = ({ open, onClose, onAccept, title, message }) => {
+const ConfirmationPrompt = ({
+  open,
+  onClose,
+  onAccept,
+  title,
+  message,
+  acceptButtonColor = "red",
+}) => {
   return (
     <Dialog open={open}>
       <DialogTitle id="confirmation-prompt-title">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="confirmation-prompt-message">
+        <DialogContentText
+          id="confirmation-prompt-message"
+          style={{ marginBottom: "5px", marginTop: "-10px" }}
+        >
           {message}
         </DialogContentText>
       </DialogContent>
@@ -23,7 +33,7 @@ const ConfirmationPrompt = ({ open, onClose, onAccept, title, message }) => {
           onClick={onAccept}
           color="primary"
           autoFocus
-          style={{ backgroundColor: "red", color: "white" }}
+          style={{ backgroundColor: acceptButtonColor, color: "white" }}
         >
           Yes
         </Button>

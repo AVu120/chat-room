@@ -13,11 +13,12 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { UserStatusContext } from "../../App";
 import { isValidEmail } from "../../helpers/validation";
 
+const dialogContextTextStyle = { marginBottom: 0, marginTop: "-10px" };
 const useStyles = makeStyles((theme) => ({
   cancelButton: {},
   saveButton: {},
   loadingIcon: { margin: "0 10px 10px 0" },
-  dialogContent: { marginBottom: 0, marginTop: "-10px" },
+  dialogContent: dialogContextTextStyle,
 }));
 
 export default function ResetPassword({
@@ -57,7 +58,9 @@ export default function ResetPassword({
   const ResetPasswordEmailSentMessage = () => (
     <>
       <DialogContent>
-        <p>A reset password email has been sent to your email inbox.</p>
+        <p style={dialogContextTextStyle}>
+          A reset password email has been sent to your email inbox.
+        </p>
       </DialogContent>
       <DialogActions>
         <Button color="secondary" variant="contained" type="submit">
@@ -120,17 +123,17 @@ export default function ResetPassword({
                     color="secondary"
                     variant="contained"
                     className={classes.saveButton}
-                    onClick={(event) =>
-                      sendResetPasswordEmail({
-                        event,
-                        emailValue,
-                        isValidEmail,
-                        setIsSendingResetPasswordEmail,
-                        setUserStatus,
-                        setError,
-                        onClose,
-                      })
-                    }
+                    // onClick={(event) =>
+                    //   sendResetPasswordEmail({
+                    //     event,
+                    //     emailValue,
+                    //     isValidEmail,
+                    //     setIsSendingResetPasswordEmail,
+                    //     setUserStatus,
+                    //     setError,
+                    //     onClose,
+                    //   })
+                    // }
                   >
                     Save
                   </Button>
