@@ -16,7 +16,7 @@ import Header from "../../components/Header/Header";
 import PopUpMessage from "../../components/common/PopUpMessage";
 import ResetPassword from "../../components/common/ResetPassword";
 import {
-  // logInWith3rdParty,
+  logInWith3rdParty,
   logInWithEmailAndPassword,
 } from "../../helpers/auth";
 import { Copyright, useStyles } from "./LogIn.style";
@@ -121,12 +121,13 @@ export default function LogIn() {
                   </Link>
                 </Grid>
               </Grid>
-              {/* <Grid container spacing={2}>
+              <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Button
                     fullWidth
                     variant="contained"
                     color="secondary"
+                    size="small"
                     className={classes.secondarySubmit}
                     onClick={() =>
                       logInWith3rdParty({
@@ -145,6 +146,7 @@ export default function LogIn() {
                     fullWidth
                     variant="contained"
                     color="secondary"
+                    size="small"
                     className={classes.secondarySubmit}
                     onClick={() =>
                       logInWith3rdParty({
@@ -158,7 +160,7 @@ export default function LogIn() {
                     Login with GitHub
                   </Button>
                 </Grid>
-              </Grid> */}
+              </Grid>
             </form>
             <Box mt={2}>
               <Copyright />
