@@ -20,7 +20,7 @@ import Copyright from "../../components/common/CopyrightMessage";
 import { useStyles } from "./SignUp.style";
 import {
   SignUpWithEmailAndPassword,
-  // logInWith3rdParty,
+  logInWith3rdParty,
 } from "../../helpers/auth";
 
 export default function SignUp() {
