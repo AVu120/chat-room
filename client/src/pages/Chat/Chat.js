@@ -184,6 +184,7 @@ const Chat = ({ isAuthenticated }) => {
                   messages[i - 1]?.displayName;
                 const senderId = message?.uid;
                 const senderDisplayName = message?.displayName || message?.uid;
+                const timestamp = new Date(message.timestamp);
                 return (
                   <div
                     className={styles.messageContainer}
@@ -215,6 +216,19 @@ const Chat = ({ isAuthenticated }) => {
                     >
                       <div className={styles.message_content}>
                         {message.content}
+                        <p className={styles.time_stamp}>
+                          {`${
+                            timestamp.getHours() > 12
+                              ? timestamp.getHours() - 12
+                              : timestamp.getHours()
+                          }:${
+                            timestamp.getMinutes() < 10 ? "0" : ""
+                          }${timestamp.getMinutes()} ${
+                            timestamp.getHours() > 11 ? "pm" : "am"
+                          }\u00A0\u00A0\u00A0${timestamp.getDate()}/${
+                            timestamp.getMonth() + 1
+                          }/${timestamp.getFullYear()}`}
+                        </p>
                       </div>
                     </div>
                   </div>
