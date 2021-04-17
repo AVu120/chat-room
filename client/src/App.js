@@ -24,19 +24,15 @@ const App = () => {
     isAllowedToUseChatroom: null,
     displayName: null,
     showNotification: false,
+    notificationSeverity: "success",
     notificationText: "",
   });
 
   const onCloseStatusNotification = () =>
-    setUserStatus((state) => ({
-      ...state,
-      hasDeletedAccount: false,
-      userId: null,
-      email: null,
-      isLoggedInWithEmailAndPw: null,
-      isAllowedToUseChatroom: null,
-      displayName: null,
+    setUserStatus((userStatus) => ({
+      ...userStatus,
       showNotification: false,
+      notificationSeverity: "success",
       notificationText: "",
     }));
 
@@ -69,7 +65,7 @@ const App = () => {
       <UserStatusNotification
         open={userStatus.showNotification}
         handleClose={onCloseStatusNotification}
-        severity="success"
+        severity={userStatus.notificationSeverity}
         message={userStatus.notificationText}
         notificationPosition={userStatus.notificationPosition}
       />

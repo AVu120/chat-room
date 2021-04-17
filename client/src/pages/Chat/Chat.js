@@ -50,23 +50,37 @@ const Chat = ({ isAuthenticated }) => {
       writeError && setWriteError(null);
       setIsLoading(true);
       try {
-        await fetch(`${process.env.REACT_APP_BASE_API_URL}/messages`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: draftMessage.trim(),
-            timestamp: Date.now(),
-            uid: userStatus?.userId,
-            displayName: userStatus.displayName || userStatus.email,
-          }),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_API_URL}/messages`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              content: draftMessage.trim(),
+              timestamp: Date.now(),
+              uid: userStatus?.userId,
+              displayName: userStatus.displayName || userStatus.email,
+            }),
+          }
+        );
+        if (!response.ok) {
+          const errorResponse = await response.json();
+          setWriteError(errorResponse.code);
+          setUserStatus((userStatus) => ({
+            ...userStatus,
+            showNotification: true,
+            notificationSeverity: "error",
+            notificationText:
+              "You have been logged out, please log in again before sending another message.",
+          }));
+        }
         setIsLoading(false);
         setDraftMessage("");
       } catch (error) {
         console.error(error);
-        setWriteError(error.message);
+        setWriteError(error);
       }
     } else setDraftMessage("");
   };
@@ -128,6 +142,10 @@ const Chat = ({ isAuthenticated }) => {
 
     socket.on("updateUserStatus", (updatedUserStatus) => {
       setUserStatus((userStatus) => ({ ...userStatus, updatedUserStatus }));
+    });
+
+    socket.on("serverError", (serverError) => {
+      alert(serverError);
     });
 
     return () => socket.disconnect();

@@ -50,6 +50,11 @@ io.on("connect", (socket) => {
     db.ref("messages").off("value");
     console.log("Client disconnected");
   });
+
+  socket.on("connect_error", () => {
+    db.ref("messages").off("value");
+    socket.emit("serverError", "Connection to server is broken.");
+  });
 });
 
 /**
