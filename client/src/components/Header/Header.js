@@ -87,7 +87,7 @@ export default function Header({
         <Toolbar className={classes.toolbar}>
           <Link
             to="/"
-            style={{ color: "white", position: "relative", top: "0.5vh" }}
+            style={{ color: "white", position: "relative", top: "4px" }}
           >
             <ChatIcon className={classes.chatIcon} />
           </Link>
