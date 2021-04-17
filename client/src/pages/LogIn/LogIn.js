@@ -16,7 +16,7 @@ import Header from "../../components/Header/Header";
 import PopUpMessage from "../../components/common/PopUpMessage";
 import ResetPassword from "../../components/common/ResetPassword";
 import {
-  logInWith3rdParty,
+  // logInWith3rdParty,
   logInWithEmailAndPassword,
 } from "../../helpers/auth";
 import { Copyright, useStyles } from "./LogIn.style";
