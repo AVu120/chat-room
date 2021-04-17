@@ -3,7 +3,7 @@
   flex-direction: column;
 }
 
-.readError {
+.readStatus {
   height: 100px;
   width: 200px;
   position: absolute;
