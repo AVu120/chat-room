@@ -18,6 +18,7 @@ import ConfirmDeleteAccountPrompt from "../common/ConfirmationPrompt";
 import ErrorMessage from "../common/PopUpMessage";
 import { deleteAccount } from "../../helpers/auth";
 import styles from "./Header.module.css";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,7 +85,12 @@ export default function Header({
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          <ChatIcon className={classes.chatIcon} />
+          <Link
+            to="/"
+            style={{ color: "white", position: "relative", top: "0.5vh" }}
+          >
+            <ChatIcon className={classes.chatIcon} />
+          </Link>
           <Typography variant="h5" className={classes.title}>
             Room
           </Typography>

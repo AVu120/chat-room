@@ -177,7 +177,7 @@ const Chat = ({ isAuthenticated }) => {
           <>
             <div
               className={styles.messages}
-              style={{ height: `${screenDimensions.height - 245}px` }}
+              style={{ height: `${screenDimensions.height - 244}px` }}
             >
               {messages.map((message, i) => {
                 const prevMessageSenderId = messages[i - 1]?.uid;

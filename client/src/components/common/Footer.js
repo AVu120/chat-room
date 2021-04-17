@@ -23,11 +23,20 @@ export default function Footer() {
               color="inherit"
               href="https://www.linkedin.com/in/anthony-hien-vu"
               target="_blank"
-              // style={{  }}
+              underline="always"
             >
               Anthony Hien Vu
             </ExternalLink>
-            's Chat Room 2020.
+            's{" "}
+            <ExternalLink
+              color="inherit"
+              href="https://github.com/AVu120/chat-room"
+              target="_blank"
+              underline="always"
+            >
+              Chat Room
+            </ExternalLink>{" "}
+            2020.
           </Typography>
         </Toolbar>
       </AppBar>
