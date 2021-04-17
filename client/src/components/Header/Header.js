@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
+  AccountCircle as AccountCircleIcon,
+  AlternateEmail as EmailAddressIcon,
   Chat as ChatIcon,
   Edit as EditIcon,
   ExitToApp as LogoutIcon,
   Settings as SettingsIcon,
   VpnKey as PasswordIcon,
-  AlternateEmail as EmailAddressIcon,
-  AccountCircle as AccountCircleIcon,
 } from "@material-ui/icons";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
-import DowndownMenu from "../common/DropdownMenu";
-import ResetPassword from "../common/ResetPassword";
-import ChangeDisplayName from "../common/chat/ChangeDisplayName";
-import ChangeEmailAddress from "../common/ChangeEmailAddress";
-import ConfirmDeleteAccountPrompt from "../common/ConfirmationPrompt";
-import ErrorMessage from "../common/PopUpMessage";
-import { deleteAccount } from "../../helpers/auth";
-import styles from "./Header.module.css";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { deleteAccount } from "../../helpers/auth";
+import ChangeEmailAddress from "../common/ChangeEmailAddress";
+import ChangeDisplayName from "../common/chat/ChangeDisplayName";
+import {
+  default as ConfirmDeleteAccountWindow,
+  default as ConfirmLogOutWindow,
+} from "../common/ConfirmationPrompt";
+import DowndownMenu from "../common/DropdownMenu";
+import ErrorMessage from "../common/PopUpMessage";
+import ResetPassword from "../common/ResetPassword";
+import styles from "./Header.module.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +66,11 @@ export default function Header({
     setShowChangeEmailAddressWindow,
   ] = useState(false);
   const [showResetPasswordWindow, setShowResetPasswordWindow] = useState(false);
-  const [showConfirmationPrompt, setShowConfirmationPrompt] = useState(false);
+  const [
+    showConfirmDeleteAccountWindow,
+    setShowConfirmDeleteAccountWindow,
+  ] = useState(false);
+  const [showConfirmLogOutWindow, setShowConfirmLogOutWindow] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   // eslint-disable-next-line
 
@@ -76,8 +83,11 @@ export default function Header({
   const toggleResetPasswordWindow = () =>
     setShowResetPasswordWindow(!showResetPasswordWindow);
 
-  const toggleDeleteAccountPrompt = () =>
-    setShowConfirmationPrompt(!showConfirmationPrompt);
+  const toggleConfirmDeleteAccountWindow = () =>
+    setShowConfirmDeleteAccountWindow(!showConfirmDeleteAccountWindow);
+
+  const toggleLogOutConfirmationWindow = () =>
+    setShowConfirmLogOutWindow(!showConfirmLogOutWindow);
 
   const acknowledgeErrorMessage = () => setErrorMessage(null);
 
@@ -122,8 +132,8 @@ export default function Header({
                   toggleChangeDisplayNameWindow,
                   toggleChangeEmailAddressWindow,
                   toggleResetPasswordWindow,
-                  toggleDeleteAccountPrompt,
-                  logOut,
+                  toggleConfirmDeleteAccountWindow,
+                  toggleLogOutConfirmationWindow,
                 ]}
               />
             </>
@@ -148,19 +158,26 @@ export default function Header({
         email={email}
         setError={setError}
       />
-      <ConfirmDeleteAccountPrompt
-        open={showConfirmationPrompt}
-        onClose={toggleDeleteAccountPrompt}
+      <ConfirmDeleteAccountWindow
+        open={showConfirmDeleteAccountWindow}
+        onClose={toggleConfirmDeleteAccountWindow}
         onAccept={() =>
           deleteAccount({
             setUserStatus,
-            toggleDeleteAccountPrompt,
+            toggleConfirmDeleteAccountWindow,
             setErrorMessage,
           })
         }
         setError={setError}
         title="Are you sure you want to delete your account?"
         message="After your account has been deleted, you will automatically be directed to the login page."
+      />
+      <ConfirmLogOutWindow
+        open={showConfirmLogOutWindow}
+        onClose={toggleLogOutConfirmationWindow}
+        onAccept={logOut}
+        setError={setError}
+        title="Are you sure you want to log out?"
       />
       <ErrorMessage
         title="Error"

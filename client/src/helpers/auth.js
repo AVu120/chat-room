@@ -152,7 +152,7 @@ export const sendResetPasswordEmail = async ({
   setIsSendingResetPasswordEmail,
   setUserStatus,
   setError,
-  onClose,
+  onClose = () => {},
   showNotification = true,
   showSendingProgress = true,
 }) => {

@@ -123,17 +123,17 @@ export default function ResetPassword({
                     color="secondary"
                     variant="contained"
                     className={classes.saveButton}
-                    onClick={(event) =>
-                      sendResetPasswordEmail({
-                        event,
-                        emailValue,
-                        isValidEmail,
-                        setIsSendingResetPasswordEmail,
-                        setUserStatus,
-                        setError,
-                        onClose,
-                      })
-                    }
+                    // onClick={(event) =>
+                    //   sendResetPasswordEmail({
+                    //     event,
+                    //     emailValue,
+                    //     isValidEmail,
+                    //     setIsSendingResetPasswordEmail,
+                    //     setUserStatus,
+                    //     setError,
+                    //     onClose,
+                    //   })
+                    // }
                   >
                     Save
                   </Button>
