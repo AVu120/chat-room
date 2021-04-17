@@ -121,7 +121,7 @@ export default function LogIn() {
                   </Link>
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              {/* <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <Button
                     fullWidth
@@ -160,7 +160,7 @@ export default function LogIn() {
                     Login with GitHub
                   </Button>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </form>
             <Box mt={2}>
               <Copyright />
