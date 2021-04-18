@@ -12,7 +12,7 @@ router.post("/signUp", (req, res, next) => {
           user.additionalUserInfo.providerId === "password";
         const isEmailVerified = user.user.emailVerified;
 
-        !isEmailVerified && auth().currentUser.sendEmailVerification();
+        !isEmailVerified && user.user.sendEmailVerification();
 
         res.send({
           userId: user.user.uid,
@@ -40,7 +40,7 @@ router.post("/logInWithEmailAndPassword", (req, res, next) => {
           user.additionalUserInfo.providerId === "password";
         const isEmailVerified = user.user.emailVerified;
 
-        !isEmailVerified && auth().currentUser.sendEmailVerification();
+        !isEmailVerified && user.user.sendEmailVerification();
 
         res.send({
           userId: user.user.uid,
@@ -133,15 +133,15 @@ router.post("/logInWithEmailAndPassword", (req, res, next) => {
 //   }
 // });
 
-router.get("/changeLogInEmail", async (req, res, next) => {
-  const { newEmail } = req.query;
-  try {
-    await auth().currentUser.updateEmail(newEmail);
-    res.status(200).send("Successfully changed login email.");
-  } catch (error) {
-    res.status(500).send(error.message || error);
-  }
-});
+// router.get("/changeLogInEmail", async (req, res, next) => {
+//   const { newEmail } = req.query;
+//   try {
+//     await auth().currentUser.updateEmail(newEmail);
+//     res.status(200).send("Successfully changed login email.");
+//   } catch (error) {
+//     res.status(500).send(error.message || error);
+//   }
+// });
 
 router.get("/resetPassword", async (req, res, next) => {
   const { email } = req.query;
@@ -153,36 +153,36 @@ router.get("/resetPassword", async (req, res, next) => {
   }
 });
 
-router.delete("/account", async (req, res, next) => {
-  try {
-    const user = auth().currentUser;
+// router.delete("/account", async (req, res, next) => {
+//   try {
+//     const user = auth().currentUser;
 
-    if (user)
-      auth()
-        .currentUser.delete()
-        .then(() => {
-          res.send("Successfully deleted account.");
-        })
-        .catch((error) => {
-          res.status(500).send(error.message);
-        });
-    else res.status(404).send("Account not found.");
-  } catch (error) {
-    console.error(error.message || error);
-  }
-});
+//     if (user)
+//       auth()
+//         .currentUser.delete()
+//         .then(() => {
+//           res.send("Successfully deleted account.");
+//         })
+//         .catch((error) => {
+//           res.status(500).send(error.message);
+//         });
+//     else res.status(404).send("Account not found.");
+//   } catch (error) {
+//     console.error(error.message || error);
+//   }
+// });
 
-router.put("/displayName", async (req, res, next) => {
-  const { draftDisplayName } = req.body;
-  auth()
-    .currentUser.updateProfile({
-      displayName: draftDisplayName,
-    })
-    .then(() => {
-      res.send("Display name successfully changed.");
-    })
-    .catch((error) => {
-      res.status(500).send(error.message);
-    });
-});
+// router.put("/displayName", async (req, res, next) => {
+//   const { draftDisplayName } = req.body;
+//   auth()
+//     .currentUser.updateProfile({
+//       displayName: draftDisplayName,
+//     })
+//     .then(() => {
+//       res.send("Display name successfully changed.");
+//     })
+//     .catch((error) => {
+//       res.status(500).send(error.message);
+//     });
+// });
 module.exports = router;

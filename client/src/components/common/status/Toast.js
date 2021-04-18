@@ -29,7 +29,7 @@ const Toast = ({
     <div className={classes.root}>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        // autoHideDuration={6000}
         onClose={handleClose}
         anchorOrigin={notificationPosition}
       >
