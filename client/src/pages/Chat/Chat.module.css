@@ -5,10 +5,10 @@
 
 .readStatus {
   height: 100px;
-  width: 200px;
+  width: 300px;
   position: absolute;
   left: 50%;
-  margin-left: -100px;
+  margin-left: -150px;
   top: 50%;
   margin-top: -50px;
 }
