@@ -171,7 +171,9 @@ export const sendResetPasswordEmail = async ({
   setError,
   onClose = () => {},
   showNotification = true,
+  notificationSeverity = "success",
   showSendingProgress = true,
+  notificationText = "Successfully sent reset password email.",
 }) => {
   try {
     event?.preventDefault();
@@ -187,8 +189,9 @@ export const sendResetPasswordEmail = async ({
         showNotification &&
           setUserStatus((userStatus) => ({
             ...userStatus,
-            showNotification: true,
-            notificationText: "Successfully sent reset password email.",
+            showNotification,
+            notificationSeverity,
+            notificationText,
           }));
       else {
         const errorText = await response.text();
@@ -202,15 +205,15 @@ export const sendResetPasswordEmail = async ({
   }
 };
 
-export const changeLogInEmail = (newEmail) => {
-  try {
-    fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/changeLogInEmail?newEmail=${newEmail}`
-    );
-  } catch (error) {
-    console.error(error);
-  }
-};
+// export const changeLogInEmail = (newEmail) => {
+//   try {
+//     fetch(
+//       `${process.env.REACT_APP_BASE_API_URL}/user/changeLogInEmail?newEmail=${newEmail}`
+//     );
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 export const checkAuthStatus = (setUserStatus) => {
   try {
@@ -235,81 +238,81 @@ export const checkAuthStatus = (setUserStatus) => {
   }
 };
 
-export const deleteAccount = async ({
-  setUserStatus,
-  toggleDeleteAccountPrompt,
-  setErrorMessage,
-}) => {
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/account`,
-      {
-        method: "DELETE",
-      }
-    );
+// export const deleteAccount = async ({
+//   setUserStatus,
+//   toggleDeleteAccountPrompt,
+//   setErrorMessage,
+// }) => {
+//   try {
+//     const response = await fetch(
+//       `${process.env.REACT_APP_BASE_API_URL}/user/account`,
+//       {
+//         method: "DELETE",
+//       }
+//     );
 
-    if (response.ok) {
-      localStorage.removeItem("chatroomAuthData");
-      setUserStatus((userStatus) => ({
-        ...userStatus,
-        isAuthenticated: false,
-        hasDeletedAccount: true,
-        userId: null,
-        email: null,
-        isLoggedInWithEmailAndPw: null,
-        isAllowedToUseChatroom: null,
-        showNotification: true,
-        notificationSeverity: "success",
-        notificationText: "Successfully deleted account.",
-      }));
-    } else {
-      toggleDeleteAccountPrompt();
-      const error = await response.text();
-      setErrorMessage(error);
-    }
-  } catch (error) {
-    console.error("CONSOLED ERROR:", error);
-  }
-};
+//     if (response.ok) {
+//       localStorage.removeItem("chatroomAuthData");
+//       setUserStatus((userStatus) => ({
+//         ...userStatus,
+//         isAuthenticated: false,
+//         hasDeletedAccount: true,
+//         userId: null,
+//         email: null,
+//         isLoggedInWithEmailAndPw: null,
+//         isAllowedToUseChatroom: null,
+//         showNotification: true,
+//         notificationSeverity: "success",
+//         notificationText: "Successfully deleted account.",
+//       }));
+//     } else {
+//       toggleDeleteAccountPrompt();
+//       const error = await response.text();
+//       setErrorMessage(error);
+//     }
+//   } catch (error) {
+//     console.error("CONSOLED ERROR:", error);
+//   }
+// };
 
-export const changeDisplayName = async ({
-  event,
-  draftDisplayName,
-  displayName,
-  setIsChangingDisplayName,
-  setUserStatus,
-  onClose,
-  setError,
-}) => {
-  event?.preventDefault();
-  if (draftDisplayName && draftDisplayName !== displayName) {
-    setIsChangingDisplayName(true);
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_API_URL}/user/displayName`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ draftDisplayName }),
-        }
-      );
-      if (response.ok) {
-        setUserStatus((userStatus) => ({
-          ...userStatus,
-          displayName: draftDisplayName,
-        }));
-        setIsChangingDisplayName(false);
-        onClose();
-      } else {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  } else if (draftDisplayName === displayName) onClose();
-  else alert("Cannot save an empty display name.");
-};
+// export const changeDisplayName = async ({
+//   event,
+//   draftDisplayName,
+//   displayName,
+//   setIsChangingDisplayName,
+//   setUserStatus,
+//   onClose,
+//   setError,
+// }) => {
+//   event?.preventDefault();
+//   if (draftDisplayName && draftDisplayName !== displayName) {
+//     setIsChangingDisplayName(true);
+//     try {
+//       const response = await fetch(
+//         `${process.env.REACT_APP_BASE_API_URL}/user/displayName`,
+//         {
+//           method: "PUT",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ draftDisplayName }),
+//         }
+//       );
+//       if (response.ok) {
+//         setUserStatus((userStatus) => ({
+//           ...userStatus,
+//           displayName: draftDisplayName,
+//         }));
+//         setIsChangingDisplayName(false);
+//         onClose();
+//       } else {
+//         const errorText = await response.text();
+//         throw new Error(errorText);
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       setError(error);
+//     }
+//   } else if (draftDisplayName === displayName) onClose();
+//   else alert("Cannot save an empty display name.");
+// };

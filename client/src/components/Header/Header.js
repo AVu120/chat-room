@@ -1,21 +1,21 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  AccountCircle as AccountCircleIcon,
-  AlternateEmail as EmailAddressIcon,
+  // AccountCircle as AccountCircleIcon,
+  // AlternateEmail as EmailAddressIcon,
   Chat as ChatIcon,
-  Edit as EditIcon,
+  // Edit as EditIcon,
   ExitToApp as LogoutIcon,
   Settings as SettingsIcon,
   VpnKey as PasswordIcon,
 } from "@material-ui/icons";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { deleteAccount } from "../../helpers/auth";
-import ChangeEmailAddress from "../common/ChangeEmailAddress";
-import ChangeDisplayName from "../common/chat/ChangeDisplayName";
+// import { deleteAccount } from "../../helpers/auth";
+// import ChangeEmailAddress from "../common/ChangeEmailAddress";
+// import ChangeDisplayName from "../common/chat/ChangeDisplayName";
 import {
-  default as ConfirmDeleteAccountWindow,
+  // default as ConfirmDeleteAccountWindow,
   default as ConfirmLogOutWindow,
 } from "../common/ConfirmationPrompt";
 import DowndownMenu from "../common/DropdownMenu";
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header({
   userStatus,
-  setUserStatus,
+  // setUserStatus,
   isAuthenticated,
   logOut,
   setError,
@@ -57,34 +57,34 @@ export default function Header({
   const displayName = userStatus?.displayName || userStatus?.email;
   const email = userStatus?.email;
   const menuIconColor = "secondary";
-  const [
-    showChangeDisplayNameWindow,
-    setShowChangeDisplayNameWindow,
-  ] = useState(false);
-  const [
-    showChangeEmailAddressWindow,
-    setShowChangeEmailAddressWindow,
-  ] = useState(false);
+  // const [
+  //   showChangeDisplayNameWindow,
+  //   setShowChangeDisplayNameWindow,
+  // ] = useState(false);
+  // const [
+  //   showChangeEmailAddressWindow,
+  //   setShowChangeEmailAddressWindow,
+  // ] = useState(false);
   const [showResetPasswordWindow, setShowResetPasswordWindow] = useState(false);
-  const [
-    showConfirmDeleteAccountWindow,
-    setShowConfirmDeleteAccountWindow,
-  ] = useState(false);
+  // const [
+  //   showConfirmDeleteAccountWindow,
+  //   setShowConfirmDeleteAccountWindow,
+  // ] = useState(false);
   const [showConfirmLogOutWindow, setShowConfirmLogOutWindow] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   // eslint-disable-next-line
 
-  const toggleChangeDisplayNameWindow = () =>
-    setShowChangeDisplayNameWindow(!showChangeDisplayNameWindow);
+  // const toggleChangeDisplayNameWindow = () =>
+  //   setShowChangeDisplayNameWindow(!showChangeDisplayNameWindow);
 
-  const toggleChangeEmailAddressWindow = () =>
-    setShowChangeEmailAddressWindow(!showChangeEmailAddressWindow);
+  // const toggleChangeEmailAddressWindow = () =>
+  //   setShowChangeEmailAddressWindow(!showChangeEmailAddressWindow);
 
   const toggleResetPasswordWindow = () =>
     setShowResetPasswordWindow(!showResetPasswordWindow);
 
-  const toggleConfirmDeleteAccountWindow = () =>
-    setShowConfirmDeleteAccountWindow(!showConfirmDeleteAccountWindow);
+  // const toggleConfirmDeleteAccountWindow = () =>
+  //   setShowConfirmDeleteAccountWindow(!showConfirmDeleteAccountWindow);
 
   const toggleLogOutConfirmationWindow = () =>
     setShowConfirmLogOutWindow(!showConfirmLogOutWindow);
@@ -115,24 +115,24 @@ export default function Header({
               <DowndownMenu
                 menuIcon={<SettingsIcon style={{ color: "white" }} />}
                 iconOptions={[
-                  <EditIcon color={menuIconColor} />,
-                  <EmailAddressIcon color={menuIconColor} />,
+                  // <EditIcon color={menuIconColor} />,
+                  // <EmailAddressIcon color={menuIconColor} />,
                   <PasswordIcon color={menuIconColor} />,
-                  <AccountCircleIcon color={menuIconColor} />,
+                  // <AccountCircleIcon color={menuIconColor} />,
                   <LogoutIcon color={menuIconColor} />,
                 ]}
                 textOptions={[
-                  "Change Display Name",
-                  "Change Login Email",
+                  // "Change Display Name",
+                  // "Change Login Email",
                   "Reset Password",
-                  "Delete Account",
+                  // "Delete Account",
                   "Log Out",
                 ]}
                 onClickOptions={[
-                  toggleChangeDisplayNameWindow,
-                  toggleChangeEmailAddressWindow,
+                  // toggleChangeDisplayNameWindow,
+                  // toggleChangeEmailAddressWindow,
                   toggleResetPasswordWindow,
-                  toggleConfirmDeleteAccountWindow,
+                  // toggleConfirmDeleteAccountWindow,
                   toggleLogOutConfirmationWindow,
                 ]}
               />
@@ -146,19 +146,19 @@ export default function Header({
         setError={setError}
         email={email}
       />
-      <ChangeDisplayName
+      {/* <ChangeDisplayName
         open={showChangeDisplayNameWindow}
         onClose={toggleChangeDisplayNameWindow}
         displayName={displayName}
         setError={setError}
-      />
-      <ChangeEmailAddress
+      /> */}
+      {/* <ChangeEmailAddress
         open={showChangeEmailAddressWindow}
         onClose={toggleChangeEmailAddressWindow}
         email={email}
         setError={setError}
-      />
-      <ConfirmDeleteAccountWindow
+      /> */}
+      {/* <ConfirmDeleteAccountWindow
         open={showConfirmDeleteAccountWindow}
         onClose={toggleConfirmDeleteAccountWindow}
         onAccept={() =>
@@ -171,7 +171,7 @@ export default function Header({
         setError={setError}
         title="Are you sure you want to delete your account?"
         message="After your account has been deleted, you will automatically be directed to the login page."
-      />
+      /> */}
       <ConfirmLogOutWindow
         open={showConfirmLogOutWindow}
         onClose={toggleLogOutConfirmationWindow}
