@@ -1,5 +1,9 @@
 <h1 align="center">Chat Room App</h1>
 
+[Live demo of this app](https://avu120-global-chatroom.herokuapp.com/)
+
+Note: This readme is very out of date. I will update it soon.
+
 ## Table of Contents
 
 - [About](#about)
