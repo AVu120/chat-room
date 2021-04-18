@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Chat from "./pages/Chat/Chat";
 import SignUp from "./pages/SignUp/SignUp";
@@ -44,7 +44,12 @@ const App = () => {
     <UserStatusContext.Provider value={{ userStatus, setUserStatus }}>
       <Router>
         <Switch>
-          <Route exact path="/" component={Home} />
+          <PublicRoute
+            exact
+            path="/"
+            isAuthenticated={userStatus.isAuthenticated}
+            component={Home}
+          />
           <PrivateRoute
             path="/chat"
             isAuthenticated={userStatus.isAuthenticated}

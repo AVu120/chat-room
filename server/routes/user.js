@@ -102,36 +102,36 @@ router.get("/logout", async (req, res, next) => {
   }
 });
 
-router.get("/status", async (req, res, next) => {
-  try {
-    const user = auth().currentUser;
+// router.get("/status", async (req, res, next) => {
+//   try {
+//     const user = auth().currentUser;
 
-    if (user) {
-      await user.reload();
-      if (user) {
-        const isLoggedInWithEmailAndPw =
-          user.providerData[0].providerId === "password";
-        const isEmailVerified = user.emailVerified;
+//     if (user) {
+//       await user.reload();
+//       if (user) {
+//         const isLoggedInWithEmailAndPw =
+//           user.providerData[0].providerId === "password";
+//         const isEmailVerified = user.emailVerified;
 
-        !isEmailVerified && auth().currentUser.sendEmailVerification();
+//         !isEmailVerified && auth().currentUser.sendEmailVerification();
 
-        res.send({
-          userId: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          isLoggedInWithEmailAndPw,
-          isAllowedToUseChatroom:
-            !isLoggedInWithEmailAndPw ||
-            (isLoggedInWithEmailAndPw && isEmailVerified),
-        });
-      }
-    } else {
-      res.status(404).send("No user is logged in.");
-    }
-  } catch (error) {
-    res.status(500).send(error.message || error);
-  }
-});
+//         res.send({
+//           userId: user.uid,
+//           displayName: user.displayName,
+//           email: user.email,
+//           isLoggedInWithEmailAndPw,
+//           isAllowedToUseChatroom:
+//             !isLoggedInWithEmailAndPw ||
+//             (isLoggedInWithEmailAndPw && isEmailVerified),
+//         });
+//       }
+//     } else {
+//       res.status(404).send("No user is logged in.");
+//     }
+//   } catch (error) {
+//     res.status(500).send(error.message || error);
+//   }
+// });
 
 router.get("/changeLogInEmail", async (req, res, next) => {
   const { newEmail } = req.query;
