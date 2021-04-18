@@ -163,7 +163,7 @@ const Chat = ({ isAuthenticated }) => {
         userStatus={userStatus}
         setUserStatus={setUserStatus}
         isAuthenticated={isAuthenticated}
-        logOut={() => logOut(setUserStatus, setOtherError)}
+        logOut={() => logOut(setUserStatus)}
         setError={setOtherError}
       />
       <section

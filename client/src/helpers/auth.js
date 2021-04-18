@@ -1,3 +1,5 @@
+const localStorage = window.localStorage;
+
 export const SignUpWithEmailAndPassword = async ({
   event,
   email,
@@ -23,14 +25,21 @@ export const SignUpWithEmailAndPassword = async ({
       setIsLoading(false);
       if (response.ok) {
         const responseJson = await response.json();
-        setUserStatus((state) => ({
-          ...state,
+        const retrievedAuthData = {
           isAuthenticated: true,
           userId: responseJson.userId,
           email: responseJson.email,
           isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
           isAllowedToUseChatroom: responseJson.isAllowedToUseChatroom,
           displayName: responseJson.displayName,
+        };
+        localStorage.setItem(
+          "chatroomAuthData",
+          JSON.stringify(retrievedAuthData)
+        );
+        setUserStatus((state) => ({
+          ...state,
+          ...retrievedAuthData,
         }));
       } else {
         const responseText = await response.text();
@@ -67,14 +76,21 @@ export const logInWithEmailAndPassword = async ({
       setIsLoading(false);
       if (response.ok) {
         const responseJson = await response.json();
-        setUserStatus((state) => ({
-          ...state,
+        const retrievedAuthData = {
           isAuthenticated: true,
           userId: responseJson.userId,
           email: responseJson.email,
           isLoggedInWithEmailAndPw: responseJson.isLoggedInWithEmailAndPw,
           isAllowedToUseChatroom: responseJson.isAllowedToUseChatroom,
           displayName: responseJson.displayName,
+        };
+        localStorage.setItem(
+          "chatroomAuthData",
+          JSON.stringify(retrievedAuthData)
+        );
+        setUserStatus((state) => ({
+          ...state,
+          ...retrievedAuthData,
         }));
       } else {
         const responseText = await response.text();
@@ -121,25 +137,26 @@ export const logInWith3rdParty = async ({
 };
 
 // Exit application.
-export const logOut = async (setUserStatus, setError) => {
+export const logOut = async (setUserStatus) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/logout`
-    );
-    if (response.ok)
-      setUserStatus({
-        isAuthenticated: false,
-        hasDeletedAccount: false,
-        showNotification: false,
-        notificationPosition: { vertical: "top", horizontal: "right" },
-        userId: null,
-        email: null,
-        isLoggedInWithEmailAndPw: null,
-        isAllowedToUseChatroom: null,
-        displayName: null,
-        notificationText: "",
-      });
-    else setError("Log Out failed.");
+    // const response = await fetch(
+    //   `${process.env.REACT_APP_BASE_API_URL}/user/logout`
+    // );
+    // if (response.ok)
+    localStorage.removeItem("chatroomAuthData");
+    setUserStatus({
+      isAuthenticated: false,
+      hasDeletedAccount: false,
+      showNotification: false,
+      notificationPosition: { vertical: "top", horizontal: "right" },
+      userId: null,
+      email: null,
+      isLoggedInWithEmailAndPw: null,
+      isAllowedToUseChatroom: null,
+      displayName: null,
+      notificationText: "",
+    });
+    // else setError("Log Out failed.");
   } catch (error) {
     console.error(error);
   }
@@ -195,21 +212,24 @@ export const changeLogInEmail = (newEmail) => {
   }
 };
 
-export const checkAuthStatus = async (setUserStatus) => {
+export const checkAuthStatus = (setUserStatus) => {
   try {
-    const response = await fetch(
-      `${process.env.REACT_APP_BASE_API_URL}/user/status`
+    // const response = await fetch(
+    //   `${process.env.REACT_APP_BASE_API_URL}/user/status`
+    // );
+    // if (response.ok) {
+    // const responseJson = await response.json();
+    const retrievedAuthData = JSON.parse(
+      localStorage.getItem("chatroomAuthData")
     );
-    if (response.ok) {
-      const responseJson = await response.json();
+    if (retrievedAuthData)
       setUserStatus((state) => ({
         ...state,
-        isAuthenticated: true,
-        ...responseJson,
+        ...retrievedAuthData,
       }));
-    } else {
-      setUserStatus((state) => ({ ...state, isAuthenticated: false }));
-    }
+    // } else {
+    //   setUserStatus((state) => ({ ...state, isAuthenticated: false }));
+    // }
   } catch (error) {
     console.error(error);
   }
@@ -229,6 +249,7 @@ export const deleteAccount = async ({
     );
 
     if (response.ok) {
+      localStorage.removeItem("chatroomAuthData");
       setUserStatus((userStatus) => ({
         ...userStatus,
         isAuthenticated: false,
