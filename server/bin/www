@@ -33,7 +33,7 @@ io.on("connect", (socket) => {
   console.log("New client connected");
 
   // Whenever there is a new message in the db, publish to all clients.
-  db.ref("messages").once("value", (snapshot) => {
+  db.ref("messages").on("value", (snapshot) => {
     try {
       const fullSnapshot = snapshot.val();
       if (fullSnapshot) {
