@@ -1,6 +1,6 @@
 <h1 align="center">Chat Room App</h1>
 
-Play with this app at https://avu120-global-chatroom.herokuapp.com/
+Play with this app at https://avu120-global-chatroom.herokuapp.com/.
 ![image](https://user-images.githubusercontent.com/38395166/115162639-03b54400-a0e8-11eb-99ad-da4d0998a9e9.png)
 
 ## Table of Contents
